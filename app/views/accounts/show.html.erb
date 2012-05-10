@@ -18,3 +18,18 @@
 
 <%= link_to 'Edit', edit_account_path(@account) %> |
 <%= link_to 'Back', accounts_path %>
+
+<h1>List of Transactions</h1>
+<table>
+  <tr>
+    <th>Transaction Date</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+<% @account.transactions.each do |f| %>
+  <%= render "transaction", :transaction => f %>
+<% end %>
+</table>
