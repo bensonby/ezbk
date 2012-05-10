@@ -1,4 +1,10 @@
 Fin::Application.routes.draw do
+  resources :accounts
+  resources :transaction_entries
+  resources :transactions do
+    resources :transaction_entries
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

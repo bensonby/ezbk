@@ -1,0 +1,31 @@
+<h1>Listing transaction_entries</h1>
+
+<table>
+  <tr>
+    <th>Transaction ID</th>
+    <th>Transaction Date</th>
+    <th>Account ID</th>
+    <th>Account Name</th>
+    <th>Debit Amount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @transaction_entries.each do |transaction_entry| %>
+  <tr>
+    <td><%= transaction_entry.transaction.id %></td>
+    <td><%= transaction_entry.transaction.transaction_date %></td>
+    <td><%= transaction_entry.account.id %></td>
+    <td><%= transaction_entry.account.name %></td>
+    <td><%= transaction_entry.debit_amount %></td>
+    <td><%= link_to 'Show', transaction_entry %></td>
+    <td><%= link_to 'Edit', edit_transaction_entry_path(transaction_entry) %></td>
+    <td><%= link_to 'Destroy', transaction_entry, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Transaction entry', new_transaction_entry_path %>
