@@ -11,7 +11,7 @@
       <td></td>
       <td></td>
       <td><%= entry.account.name %></td>
-      <td><%= entry.debit_amount %></td>
+      <td class="currency"><%= number_with_precision(entry.debit_amount, :delimiter => ',', :precision => 2) %></td>
       <td></td>
       <td></td>
     </tr>
