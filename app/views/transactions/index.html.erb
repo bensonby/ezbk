@@ -36,7 +36,7 @@
       <td></td>
       <td></td>
       <td><%= entry.account.name %></td>
-      <td class="currency"><%= entry.debit_amount %></td>
+      <td class="currency"><%= number_with_precision(entry.debit_amount, :precision => 2, :delimiter => ',') %></td>
 <!--
       <td><%#= link_to 'Show', entry %></td>
       <td><%#= link_to 'Edit', edit_transaction_entry_path(entry) %></td>
