@@ -13,7 +13,7 @@
 <% @accounts.each do |account| %>
   <tr>
     <td><%= account.name %></td>
-    <td><%= account.parent_id %></td>
+    <td><%= account.parent ? account.parent.name : '-' %></td>
     <td><%= account.opening_balance %></td>
     <td><%= link_to 'Show', account %></td>
     <td><%= link_to 'Edit', edit_account_path(account) %></td>
