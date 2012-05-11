@@ -3,7 +3,7 @@
   <%= f.label :debit_amount %><br />
   <%= f.text_field :debit_amount %><br />
   <%= f.label :account_id %><br />
-  <%= f.number_field :account_id %><br />
+  <%= f.collection_select(:account_id, Account.all, :id, :name ) %>
   <%= f.check_box :_destroy %>
   <%= f.label :_destroy, "Remove Transaction Entry" %>
   <%= link_to_remove_fields "remove", f %>
