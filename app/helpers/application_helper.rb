@@ -26,4 +26,9 @@ module ApplicationHelper
   def currency_format(amount)
     number_with_precision(amount, :precision => 2, :delimiter => ',')
   end
+
+  def autotab
+    @current_tab ||= 0
+    @current_tab += 1
+  end
 end

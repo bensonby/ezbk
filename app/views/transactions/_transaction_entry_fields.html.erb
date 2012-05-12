@@ -1,10 +1,14 @@
 <p class="fields">
-  <%= f.label :content, "Transaction Entry" %><br />
-  <%= f.label :debit_amount %><br />
-  <%= f.text_field :debit_amount %><br />
-  <%= f.label :account_id %><br />
-  <%= f.hidden_field :account_id %>
-  <%= text_field_tag :account_id, f.object.account ? f.object.account.name : '', :"data-autocomplete" => transaction_entries_autocomplete_account_name_path, :"data-id-element" => "#" + form_tag_id(f.object_name, :account_id) %>
+  <b><%= f.label :content, "Transaction Entry" %></b><br />
+  <div class="field">
+    <%= f.label :account_id %><br />
+    <%= f.hidden_field :account_id %>
+    <%= text_field_tag :account_id, f.object.account ? f.object.account.name : '', :"data-autocomplete" => transaction_entries_autocomplete_account_name_path, :"data-id-element" => "#" + form_tag_id(f.object_name, :account_id), :tabindex => autotab %>
+  </div>
+  <div class="field">
+    <%= f.label :debit_amount %><br />
+    <%= f.text_field :debit_amount, :tabindex => autotab %><br />
+  </div>
   <%= f.check_box :_destroy %>
   <%= f.label :_destroy, "Remove Transaction Entry" %>
   <%= link_to_remove_fields "remove", f %>
