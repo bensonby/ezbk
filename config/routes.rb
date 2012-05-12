@@ -1,4 +1,5 @@
 Fin::Application.routes.draw do
+  get 'transaction_entries/autocomplete_account_name'
   resources :accounts
   resources :transaction_entries
   resources :transactions do
