@@ -20,7 +20,7 @@
     <%= f.text_field :description %>
   </div>
   <%= f.fields_for :transaction_entries do |transaction_entry| %>
-    <%= render :partial => 'transaction_entries/transaction_entry_fields', :locals => {:f => transaction_entry } %>
+      <%= render "transaction_entry_fields", :f => transaction_entry %>
   <% end %>
   <p><%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries %></p>
   <div class="actions">

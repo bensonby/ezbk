@@ -1,4 +1,5 @@
 class TransactionEntriesController < ApplicationController
+  autocomplete :account, :name
   # GET /transaction_entries
   # GET /transaction_entries.json
   def index
