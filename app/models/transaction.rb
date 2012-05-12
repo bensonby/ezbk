@@ -6,6 +6,11 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :transaction_date
   validates_presence_of :description
   validate :zero_balance
+  after_initialize :init
+
+  def init
+    self.transaction_date ||= Date.today.to_s
+  end
 
   def zero_balance
     total_amount = self.transaction_entries.reduce(0) do |sum, t|
