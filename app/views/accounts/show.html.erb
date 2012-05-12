@@ -36,4 +36,12 @@
 
 <h1>List of Transactions</h1>
 <%= link_to 'New Transaction', new_transaction_path %>
+<div id="account-transactions-container">
 <%= render "transactions/transaction_entries", :transactions => @account.transactions %>
+</div>
+
+<% content_for :javascripts do %>
+  <script type="text/javascript">
+    highlight_account_in_transactions("<%= @account.name %>");
+  </script>
+<% end %>
