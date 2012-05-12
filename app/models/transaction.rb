@@ -6,6 +6,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :transaction_date
   validates_presence_of :description
   validate :zero_balance
+  validate :entries_presence
   after_initialize :init
 
   def init
@@ -17,5 +18,19 @@ class Transaction < ActiveRecord::Base
       sum + t.debit_amount
     end
     errors.add(:base, "All Transaction Entries must add up to zero") unless total_amount == 0
+  end
+
+  def entries_presence
+    errors.add(:base, "No transaction entries found (at least two required)") unless self.transaction_entries.length > 0
+  end
+
+  def tostring
+    self.description + " " + 
+    self.accounts.reduce("") do |str, a|
+      str + " " + a.name
+    end +
+    self.transaction_entries.reduce("") do |str, t|
+      str + " " + t.debit_amount.to_s
+    end
   end
 end

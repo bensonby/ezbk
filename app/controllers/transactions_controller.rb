@@ -5,6 +5,22 @@ class TransactionsController < ApplicationController
     @page_name = "transactions"
   end
 
+  def autocomplete_transaction_tostring
+    @return_list = [];
+    Transaction.all.each do |t|
+      ok = true
+      params[:term].split.each do |s|
+        if !t.tostring.downcase.include? s.downcase
+          ok = false
+          break
+        end
+      end
+      @return_list.push({:id => t.id, :value => t.tostring}) if ok
+    end
+    render :json => @return_list
+  end
+
+
   # GET /transactions
   # GET /transactions.json
   def index
@@ -45,6 +61,23 @@ class TransactionsController < ApplicationController
   # GET /transactions/1/edit
   def edit
     @transaction = Transaction.find(params[:id])
+  end
+
+  # POST /transactions/quick_create
+  def quick_create
+    existing = Transaction.find(params[:transaction_id])
+    @transaction = existing.dup
+    @transaction.transaction_entries << existing.transaction_entries.collect { |t| t.dup }
+    @transaction.transaction_date = params[:transaction_date]
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to @transaction, :notice => 'Transaction was successfully created.' }
+        format.json { render :json => @transaction, :status => :created, :location => @transaction }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @transaction.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
   # POST /transactions

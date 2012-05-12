@@ -1,0 +1,10 @@
+<div id="transaction-quick-create">
+<%= form_tag('transactions/quick_create') %>
+<%= label_tag 'transaction_date', 'Transaction date' %>
+<%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab %>
+<%= label_tag 'transaction_id', 'Keywords' %>
+<%= hidden_field_tag 'transaction_id', '' %>
+<%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id' %>
+<%= submit_tag "Create", :tabindex => autotab %>
+</form>
+</div>
