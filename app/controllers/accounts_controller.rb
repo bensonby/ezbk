@@ -1,4 +1,10 @@
 class AccountsController < ApplicationController
+  before_filter :set_page_name
+
+  def set_page_name
+    @page_name = "accounts"
+  end
+
   # GET /accounts
   # GET /accounts.json
   def index

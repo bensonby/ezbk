@@ -10,8 +10,9 @@
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
   </head>
-  <body>
+  <body class="<%= @page_name %>">
     <div id="container">
+      <%= render :partial => 'layouts/menu' %>
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}" %>
       <% end %>

@@ -1,0 +1,30 @@
+.nav_links {
+  width: 100%;
+  ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+    li {
+      display: inline;
+      a {
+        float: left;
+/*        text-decoration: none;*/
+        color: #666;
+        padding: 11px;
+      }
+      a:visited {
+        color: #666;
+      }
+      a:hover {
+        color: white;
+        background-color: #666;
+      }
+    }
+  }
+}
+body.accounts li.accounts, body.transactions li.transactions {
+  a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+}

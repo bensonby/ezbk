@@ -1,4 +1,10 @@
 class TransactionsController < ApplicationController
+  before_filter :set_page_name
+
+  def set_page_name
+    @page_name = "transactions"
+  end
+
   # GET /transactions
   # GET /transactions.json
   def index
