@@ -24,7 +24,7 @@
       <td></td>
       <td></td>
       <td><%= link_to entry.account.name, entry.account %></td>
-      <td class="currency"><%= number_with_precision(entry.debit_amount, :precision => 2, :delimiter => ',') %></td>
+      <td class="currency"><%= currency_format(entry.debit_amount) %></td>
     </tr>
   <% end %>
 <% end.empty? %>

@@ -22,12 +22,12 @@
 
 <p>
   <b>Opening Balance:</b>
-  <%= number_with_precision(@account.opening_balance, :precision => 2, :delimiter => ',') %>
+  <%= currency_format(@account.opening_balance) %>
 </p>
 
 <p>
   <b>Current Balance:</b>
-  <%= number_with_precision(@account.current_balance, :precision => 2, :delimiter => ',') %>
+  <%= currency_format(@account.current_balance) %>
 </p>
 
 

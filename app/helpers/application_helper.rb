@@ -22,4 +22,8 @@ module ApplicationHelper
   def form_tag_id(object_name, method_name)
     "#{sanitized_object_name(object_name.to_s)}_#{sanitized_method_name(method_name.to_s)}"
   end
+
+  def currency_format(amount)
+    number_with_precision(amount, :precision => 2, :delimiter => ',')
+  end
 end
