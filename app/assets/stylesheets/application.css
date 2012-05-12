@@ -14,3 +14,6 @@
 div.clear {
   clear: both;
 }
+td {
+  padding: 5px;
+}
