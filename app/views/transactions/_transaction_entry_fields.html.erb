@@ -7,7 +7,7 @@
   </div>
   <div class="field">
     <%= f.label :debit_amount %><br />
-    <%= f.text_field :debit_amount, :tabindex => autotab %><br />
+    <%= f.text_field :debit_amount, :tabindex => autotab, :class => 'input-debit-amount' + (f.object.debit_amount.blank? ? '' : ' manual-input') %><br />
   </div>
   <%= f.check_box :_destroy %>
   <%= f.label :_destroy, "Remove Transaction Entry" %>

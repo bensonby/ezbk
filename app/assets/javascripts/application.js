@@ -22,3 +22,23 @@ function add_fields(link, association, content) {
   var regexp = new RegExp("new_" + association, "g")
   $(link).parent().before(content.replace(regexp, new_id));
 }
+
+$('.input-debit-amount').live('change', function(event){
+  if($(this).val() != "") $(this).addClass("manual-input");
+  else $(this).removeClass("manual-input");
+  $(".input-debit-amount:not(.manual-input)").each(function(index, e){
+    $(e).val("");
+  });
+
+  var total = 0.0;
+  $(".input-debit-amount.manual-input").each(function(i,e){ total+=parseFloat($(e).val()); });
+  if($(".input-debit-amount:not(.manual-input)").length == 0){
+    var add_transaction_entry_element = $('#add-transaction-entry');
+    var scripts = add_transaction_entry_element.attr('onclick');
+    scripts = scripts.substr(0, scripts.length-13);
+    scripts = scripts.replace(/add_fields\(this/, "add_fields($('#add-transaction-entry')");
+console.log(scripts);
+    eval(scripts);
+  }
+  $(".input-debit-amount:not(.manual-input):first").val(-total.toFixed(2));
+});
