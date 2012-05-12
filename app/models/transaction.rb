@@ -9,7 +9,7 @@ class Transaction < ActiveRecord::Base
   after_initialize :init
 
   def init
-    self.transaction_date ||= Date.today.to_s
+    self.transaction_date ||= (DateTime.now - 7.hours).to_date.to_s #I don't expect we will enter the transaction for that day before 7am in the morning..
   end
 
   def zero_balance
