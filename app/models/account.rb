@@ -1,6 +1,9 @@
 class Account < ActiveRecord::Base
   before_save :default_values
+  before_save :calculate_current_balance
+  after_save :save_parent_accounts
   attr_accessible :name, :parent_id, :opening_balance
+  #:current_balance
   belongs_to :parent, :class_name => 'Account'
   has_many :children, :class_name => 'Account', :foreign_key => 'parent_id', :dependent => :destroy
   has_many :transaction_entries
@@ -8,5 +11,21 @@ class Account < ActiveRecord::Base
 
   def default_values
     self.opening_balance ||= 0
+  end
+
+  def calculate_current_balance
+    self.current_balance = self.calculate_own_balance + self.children.reduce(0) do |sum, a|
+      sum + a.calculate_own_balance
+    end
+  end
+
+  def calculate_own_balance
+    return self.transaction_entries.reduce(self.opening_balance) do |sum, t|
+      sum + t.debit_amount
+    end
+  end
+
+  def save_parent_accounts
+    self.parent.save! if self.parent
   end
 end

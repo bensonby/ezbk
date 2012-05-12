@@ -7,13 +7,27 @@
 </p>
 
 <p>
-  <b>Parent:</b>
-  <%= @account.parent_id %>
+  <b>Parent Account:</b>
+  <%= @account.parent ? link_to(@account.parent.name, @account.parent) : 'Nil'  %>
+</p>
+
+<p>
+  <b>Children Accounts:</b>
+  <% if @account.children.each do |a| %>
+        <%= link_to(a.name, a) %>
+  <% end.empty?  %>
+    Nil
+  <% end %>
 </p>
 
 <p>
   <b>Opening Balance:</b>
-  <%= @account.opening_balance %>
+  <%= number_with_precision(@account.opening_balance, :precision => 2, :delimiter => ',') %>
+</p>
+
+<p>
+  <b>Current Balance:</b>
+  <%= number_with_precision(@account.current_balance, :precision => 2, :delimiter => ',') %>
 </p>
 
 

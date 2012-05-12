@@ -5,6 +5,7 @@
     <th>Name</th>
     <th>Parent</th>
     <th>Opening Balance</th>
+    <th>Current Balance</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +16,7 @@
     <td><%= account.name %></td>
     <td><%= account.parent ? account.parent.name : '-' %></td>
     <td class="currency"><%= number_with_precision(account.opening_balance, :precision => 2, :delimiter => ',') %></td>
+    <td class="currency"><%= number_with_precision(account.current_balance, :precision => 2, :delimiter => ',') %></td>
     <td><%= link_to 'Show', account %></td>
     <td><%= link_to 'Edit', edit_account_path(account) %></td>
     <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
