@@ -1,0 +1,31 @@
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Transaction Date</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% transactions.each do |transaction| %>
+  <tr class="transaction-info">
+    <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
+    <td><%= link_to 'Destroy', transaction, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= transaction.transaction_date %></td>
+    <td><%= transaction.description %></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% transaction.transaction_entries.each do |entry| %>
+    <tr class="transaction-entry-info">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><%= link_to entry.account.name, entry.account %></td>
+      <td class="currency"><%= number_with_precision(entry.debit_amount, :precision => 2, :delimiter => ',') %></td>
+    </tr>
+  <% end %>
+<% end %>
+</table>

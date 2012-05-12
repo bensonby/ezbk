@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<h1>Showing Account - <%= @account.name %></h1>
 <p>
   <b>Name:</b>
   <%= @account.name %>
@@ -20,16 +21,5 @@
 <%= link_to 'Back', accounts_path %>
 
 <h1>List of Transactions</h1>
-<table>
-  <tr>
-    <th>Transaction Date</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-<% @account.transactions.each do |f| %>
-  <%= render "transaction", :transaction => f %>
-<% end %>
-</table>
+<%= link_to 'New Transaction', new_transaction_path %>
+<%= render "transactions/transaction_entries", :transactions => @account.transactions %>
