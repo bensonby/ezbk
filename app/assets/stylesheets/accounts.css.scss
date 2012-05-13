@@ -18,14 +18,14 @@ table.account-list {
   @for $i from 0 through 4 {
     tr.account-level-#{$i} {
       td {
-        background-color: lighten($base-bg-color, $i*10%);
+/*        background-color: lighten($base-bg-color, $i*10%);*/
         padding-top: (4-$i)*3px;
         padding-bottom: (4-$i)*3px;
         &.account-name {
           padding-left: 5px+20px*$i;
         }
         &.account-currency {
-          padding-right: 5px+80px*$i;
+/*          padding-right: 5px+80px*$i;*/
         }
       } 
     }

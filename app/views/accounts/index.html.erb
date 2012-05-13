@@ -3,11 +3,10 @@
 
 <table class="account-list">
   <tr>
+    <th></th>
+    <th></th>
     <th>Name</th>
     <th>Current Balance</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <%= render :partial => 'account',:collection => Account.find_all_by_parent_id(nil), :locals => {:level => 0} %>
