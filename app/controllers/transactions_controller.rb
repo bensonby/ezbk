@@ -71,7 +71,11 @@ class TransactionsController < ApplicationController
     @transaction.transaction_date = params[:transaction_date]
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to @transaction, :notice => 'Transaction was successfully created.' }
+        if params[:edit]
+          format.html { redirect_to "/transactions/#{@transaction.id}/edit", :notice => 'Transaction was successfully created.' }
+        else
+          format.html { redirect_to :action => :index, :notice => 'Transaction was successfully created.' }
+        end
         format.json { render :json => @transaction, :status => :created, :location => @transaction }
       else
         format.html { render :action => "new" }
