@@ -1,28 +1,16 @@
 <%= render 'transactions/quick_create' %>
 <h1>Listing accounts</h1>
 
-<table>
+<table class="account-list">
   <tr>
     <th>Name</th>
-    <th>Parent</th>
-<!--    <th>Opening Balance</th>-->
     <th>Current Balance</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @accounts.each do |account| %>
-  <tr>
-    <td><%= account.name %></td>
-    <td><%= account.parent ? account.parent.name : '-' %></td>
-<!--    <td class="currency"><%= currency_format(account.opening_balance) %></td>-->
-    <td class="currency"><%= currency_format(account.current_balance) %></td>
-    <td><%= link_to 'Show', account %></td>
-    <td><%= link_to 'Edit', edit_account_path(account) %></td>
-    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+<%= render :partial => 'account',:collection => Account.find_all_by_parent_id(nil), :locals => {:level => 0} %>
 </table>
 
 <br />

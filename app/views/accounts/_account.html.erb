@@ -1,0 +1,10 @@
+  <tr class="account-level-<%= level %>">
+    <td class="account-name"><%= account.name %></td>
+    <td class="currency account-currency"><%= currency_format(account.current_balance) %></td>
+    <td><%= link_to 'Show', account %></td>
+    <td><%= link_to 'Edit', edit_account_path(account) %></td>
+    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+  <% if !account.children.empty? %>
+    <%= render :partial => 'account', :collection => account.children, :locals => {:level => level + 1 } %>
+  <% end %>
