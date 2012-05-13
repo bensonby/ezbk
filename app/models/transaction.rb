@@ -26,11 +26,8 @@ class Transaction < ActiveRecord::Base
 
   def tostring
     self.description + " " + 
-    self.accounts.reduce("") do |str, a|
-      str + " " + a.name
-    end +
     self.transaction_entries.reduce("") do |str, t|
-      str + " " + t.debit_amount.to_s
+      str + " " + t.account.name + " " + t.debit_amount.to_s
     end
   end
 end
