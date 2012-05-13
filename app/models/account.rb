@@ -1,6 +1,8 @@
 class Account < ActiveRecord::Base
+  include ActiveModel::Dirty
   before_save :default_values
   before_save :calculate_current_balance
+  after_save :save_original_parent_accounts
   after_save :save_parent_accounts
   attr_accessible :name, :parent_id, :opening_balance
   #:current_balance
@@ -22,6 +24,12 @@ class Account < ActiveRecord::Base
   def calculate_own_balance
     return self.transaction_entries.reduce(self.opening_balance) do |sum, t|
       sum + t.debit_amount
+    end
+  end
+
+  def save_original_parent_accounts
+    if self.parent_id_changed?
+      Account.find(self.parent_id_was).save!
     end
   end
 
