@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :tabindex => autotab %>
   </div>
   <div class="field">
     <%= f.label :parent_id %><br />
@@ -22,9 +22,9 @@
   </div>
   <div class="field">
     <%= f.label :opening_balance %><br />
-    <%= f.text_field :opening_balance %>
+    <%= f.text_field :opening_balance, :tabindex => autotab %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :tabindex => autotab %>
   </div>
 <% end %>
