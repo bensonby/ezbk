@@ -13,19 +13,19 @@
 
   <div class="field">
     <%= f.label :transaction_date %><br />
-    <%= f.text_field :transaction_date, :tabindex => autotab %>
+    <%= f.text_field :transaction_date, :tabindex => autotab, :class => 'date' %>
   </div>
   <div class="field">
     <%= f.label :description %><br />
     <%= f.text_field :description, :tabindex => autotab %>
   </div>
   <div class="field">
-    <table>
+    <table class="center">
       <thead>
       <tr>
           <th>Account</th>
           <th>Debit Amount</th>
-          <th>Destroy</th>
+          <th>Ignore Entry?</th>
           <th>Remove this row</th>
         </tr>
       </thead>

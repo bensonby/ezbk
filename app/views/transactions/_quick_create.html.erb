@@ -1,12 +1,21 @@
-Quick Create Transaction: 
 <div id="transaction-quick-create">
-<%= form_tag :controller => 'transactions', :action => 'quick_create' %>
-<%= label_tag 'transaction_date', 'Transaction date' %>
-<%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab %>
-<%= label_tag 'transaction_id', 'Keywords' %>
-<%= hidden_field_tag 'transaction_id', '' %>
-<%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id' %>
-<%= check_box_tag 'edit', 'edit', false, :tabindex => autotab %> Edit after Create
-<%= submit_tag "Create", :tabindex => autotab %>
-</form>
+<h3>Quick Create Transaction from Existing</h3>
+  <%= form_tag :controller => 'transactions', :action => 'quick_create' do %>
+    <span class="field">
+      <%= label_tag 'transaction_date', 'Transaction Date:' %>
+      <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab, :class => 'date' %>
+    </span>
+    <span class="field">
+      <%= label_tag 'transaction_id', 'Keywords:' %>
+      <%= hidden_field_tag 'transaction_id', '' %>
+      <%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id' %>
+    </span>
+    <span class="field">
+      <%= check_box_tag 'edit', 'edit', false, :tabindex => autotab %>
+      <%= label_tag 'edit', 'Edit after Create' %>
+    </span>
+    <span class="actions">
+      <%= submit_tag "Create", :tabindex => autotab %>
+    </span>
+  <% end %>
 </div>

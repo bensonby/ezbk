@@ -14,6 +14,27 @@
 div.clear {
   clear: both;
 }
-td {
+th, td {
   padding: 5px;
+}
+table.center td {
+  text-align: center;
+}
+input.date {
+  width: 90px;
+}
+input.input-debit-amount {
+  width: 100px;
+}
+div#container {
+  margin-left: 20px;
+  width: 800px;
+}
+label {
+/*  font-weight: bold;*/
+}
+div#transaction-quick-create {
+  border-radius: 5px;
+  background-color: #DDD;
+  padding: 10px;
 }
