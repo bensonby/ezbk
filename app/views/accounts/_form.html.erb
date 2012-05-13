@@ -17,7 +17,8 @@
   </div>
   <div class="field">
     <%= f.label :parent_id %><br />
-    <%= f.number_field :parent_id %>
+    <%= f.hidden_field :parent_id %>
+    <%= text_field_tag :parent_id, f.object.parent ? f.object.parent.name : '', :"data-autocomplete" => accounts_autocomplete_account_name_path, :"data-id-element" => "#" + form_tag_id(f.object_name, :parent_id), :tabindex => autotab %>
   </div>
   <div class="field">
     <%= f.label :opening_balance %><br />

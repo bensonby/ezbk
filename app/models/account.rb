@@ -29,7 +29,7 @@ class Account < ActiveRecord::Base
 
   def save_original_parent_accounts
     if self.parent_id_changed?
-      Account.find(self.parent_id_was).save!
+      Account.find(self.parent_id_was).save! if self.parent_id_was
     end
   end
 

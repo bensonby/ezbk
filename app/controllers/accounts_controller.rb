@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+  autocomplete :account, :name
   before_filter :set_page_name
 
   def set_page_name
