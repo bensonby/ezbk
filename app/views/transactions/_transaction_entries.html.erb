@@ -1,13 +1,4 @@
 <table>
-<!--  <tr>
-    <th></th>
-    <th></th>
-    <th>Transaction Date</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-  </tr>
--->
 <% if transactions.each do |transaction| %>
   <tr class="transaction-info">
     <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
@@ -23,7 +14,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><%= link_to entry.account.name, entry.account %></td>
+      <td><%= link_to entry.account.name, entry.account if entry.account %></td>
       <td class="currency"><%= currency_format(entry.debit_amount) %></td>
     </tr>
   <% end %>

@@ -1,5 +1,6 @@
 class Account < ActiveRecord::Base
   include ActiveModel::Dirty
+  before_destroy :delete_associated_transactions
   before_save :default_values
   before_save :calculate_current_balance
   after_save :save_original_parent_accounts
@@ -11,6 +12,10 @@ class Account < ActiveRecord::Base
   has_many :transaction_entries
   has_many :transactions, :through => :transaction_entries
   scope :root_accounts, where(:parent_id => nil).order(:name)
+
+  def delete_associated_transactions
+    self.transactions.each(&:destroy)
+  end
 
   def default_values
     self.opening_balance ||= 0

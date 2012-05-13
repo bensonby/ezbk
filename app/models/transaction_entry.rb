@@ -1,5 +1,6 @@
 class TransactionEntry < ActiveRecord::Base
   attr_accessible :debit_amount, :transaction_id, :account_id
+  after_destroy :calculate_account_current_balance
   after_save :calculate_account_current_balance
   belongs_to :transaction, :foreign_key => 'transaction_id'
   belongs_to :account, :foreign_key => 'account_id', :touch => true
