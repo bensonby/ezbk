@@ -32,6 +32,7 @@ $('.input-debit-amount').live('change', function(event){
 
   var total = 0.0;
   $(".input-debit-amount.manual-input").each(function(i,e){ total+=parseFloat($(e).val()); });
+  if(total.toFixed(2) == "0.00") return ;
   if($(".input-debit-amount:not(.manual-input)").length == 0){
     var add_transaction_entry_element = $('#add-transaction-entry');
     var scripts = add_transaction_entry_element.attr('onclick');
