@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
   attr_accessible :name, :parent_id, :opening_balance
   #:current_balance
   belongs_to :parent, :class_name => 'Account'
-  has_many :children, :class_name => 'Account', :foreign_key => 'parent_id', :dependent => :destroy
+  has_many :children, :class_name => 'Account', :foreign_key => 'parent_id', :dependent => :destroy, :order => "name"
   has_many :transaction_entries
   has_many :transactions, :through => :transaction_entries
 
