@@ -9,7 +9,7 @@
     <th>Current Balance</th>
   </tr>
 
-<%= render :partial => 'account',:collection => Account.find_all_by_parent_id(nil), :locals => {:level => 0} %>
+<%= render :partial => 'account',:collection => Account.root_accounts, :locals => {:level => 0} %>
 </table>
 
 <br />

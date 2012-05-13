@@ -10,6 +10,7 @@ class Account < ActiveRecord::Base
   has_many :children, :class_name => 'Account', :foreign_key => 'parent_id', :dependent => :destroy, :order => "name"
   has_many :transaction_entries
   has_many :transactions, :through => :transaction_entries
+  scope :root_accounts, where(:parent_id => nil).order(:name)
 
   def default_values
     self.opening_balance ||= 0
