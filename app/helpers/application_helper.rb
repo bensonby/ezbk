@@ -31,4 +31,12 @@ module ApplicationHelper
     @current_tab ||= 0
     @current_tab += 1
   end
+
+  def edit_icon
+    image_tag("page_edit.png", :size => '16x16', :alt => 'Edit', :title => 'Edit') #+ "Edit"
+  end
+
+  def destroy_icon
+    image_tag("page_delete.png", :size => '16x16', :alt => 'Delete', :title => 'Delete') #+ "Delete"
+  end
 end

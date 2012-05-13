@@ -26,6 +26,22 @@ input.date {
 input.input-debit-amount {
   width: 100px;
 }
+div.button {
+  border-color: #AAA; 
+  box-shadow: 0 0 3px #AAA;
+  outline: 0 none;
+  background: -moz-linear-gradient(center top, #FFFFFF, #EBEBEB) repeat scroll 0 0 #F3F3F3;
+  padding: 3px; 
+
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(243,243,243,1)), color-stop(51%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* IE10+ */
+  background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
 div#container {
   margin-left: 20px;
   width: 800px;
@@ -37,4 +53,10 @@ div#transaction-quick-create {
   border-radius: 5px;
   background-color: #DDD;
   padding: 10px;
+}
+table.transaction-list {
+  border-collapse: collapse;
+  tr.transaction-info td {
+    border-top: 1px solid #666;
+  }
 }

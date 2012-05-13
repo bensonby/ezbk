@@ -9,7 +9,16 @@ tr.current-account td {
 }
 
 td.account-name {
-  padding-right: 80px;
+  padding-right: 40px;
+}
+table#account-info {
+  border-collapse: collapse;
+  thead th {
+    border-bottom: 1px solid #666;
+  }
+  th, td {
+    padding: 5px 10px;
+  }
 }
 table.account-list {
 /*  $base-bg-color: #55B0ED;*/
@@ -31,14 +40,3 @@ table.account-list {
     }
   }
 }
-/*
-tr.account-level-0 { padding-left: 5px; }
-tr.account-level-1 { padding-left: 25px; }
-tr.account-level-2 { padding-left: 45px; }
-tr.account-level-3 { padding-left: 65px; }
-tr.account-level-4 { padding-left: 85px; }
-tr.account-level-5 { padding-left: 105px; }
-tr.account-level-6 { padding-left: 125px; }
-tr.account-level-7 { padding-left: 145px; }
-tr.account-level-8 { padding-left: 165px; }
-*/

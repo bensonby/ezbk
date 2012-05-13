@@ -1,41 +1,40 @@
 <!--<p id="notice"><%= notice %></p>-->
 
 <h1>Showing Account - <%= @account.name %></h1>
-<p>
-  <b>Name:</b>
-  <%= @account.name %>
-</p>
+<table id="account-info" class="center">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Parent Account</th>
+      <th>Children Account(s)</th>
+      <th>Opening Balance</th>
+      <th>Current Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @account.name %></td>
+      <td><%= @account.parent ? link_to(@account.parent.name, @account.parent) : 'Nil'  %></td>
+      <td><% if @account.children.each do |a| %>
+             <%= link_to(a.name, a) %>
+           <% end.empty?  %>
+              Nil
+            <% end %>
+      </td>
+      <td><%= currency_format(@account.opening_balance) %></td>
+      <td><%= currency_format(@account.current_balance) %></td>
+    </tr>
+  </tbody>
+</table>
 
-<p>
-  <b>Parent Account:</b>
-  <%= @account.parent ? link_to(@account.parent.name, @account.parent) : 'Nil'  %>
-</p>
-
-<p>
-  <b>Children Accounts:</b>
-  <% if @account.children.each do |a| %>
-        <%= link_to(a.name, a) %>
-  <% end.empty?  %>
-    Nil
-  <% end %>
-</p>
-
-<p>
-  <b>Opening Balance:</b>
-  <%= currency_format(@account.opening_balance) %>
-</p>
-
-<p>
-  <b>Current Balance:</b>
-  <%= currency_format(@account.current_balance) %>
-</p>
-
-
+<br>
+<div>
 <%= link_to 'Edit', edit_account_path(@account) %> |
 <%= link_to 'Back', accounts_path %>
+</div>
 
-<h1>List of Transactions</h1>
-<%= link_to 'New Transaction', new_transaction_path %>
+<h1>Listing Transactions - <%= @account.name %></h1>
+<h3><%= link_to '>> Create New Transaction', new_transaction_path %></h3>
 <div id="account-transactions-container">
 <%= render "transactions/transaction_entries", :transactions => @account.transactions %>
 </div>
