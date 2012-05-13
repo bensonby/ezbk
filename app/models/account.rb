@@ -15,7 +15,7 @@ class Account < ActiveRecord::Base
 
   def calculate_current_balance
     self.current_balance = self.calculate_own_balance + self.children.reduce(0) do |sum, a|
-      sum + a.calculate_own_balance
+      sum + a.calculate_current_balance
     end
   end
 
