@@ -20,7 +20,13 @@ function remove_fields(link) {
 function add_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g")
-  $(link).parent().before(content.replace(regexp, new_id));
+  var container_tag = $(link).attr('container-tag');
+  if(container_tag != null){
+    var container = $(link).closest(container_tag);
+  }else{
+    var container = $(link).parent();
+  }
+  container.before(content.replace(regexp, new_id));
 }
 
 $('.input-debit-amount').live('change', function(event){

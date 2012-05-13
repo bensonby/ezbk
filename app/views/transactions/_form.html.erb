@@ -19,10 +19,28 @@
     <%= f.label :description %><br />
     <%= f.text_field :description, :tabindex => autotab %>
   </div>
-  <%= f.fields_for :transaction_entries do |transaction_entry| %>
-      <%= render "transaction_entry_fields", :f => transaction_entry %>
-  <% end %>
-  <p><%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, :tabindex => autotab, :id => "add-transaction-entry" %></p>
+  <div class="field">
+    <table>
+      <thead>
+      <tr>
+          <th>Account</th>
+          <th>Debit Amount</th>
+          <th>Destroy</th>
+          <th>Remove this row</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-entries-input">
+        <%= f.fields_for :transaction_entries do |transaction_entry| %>
+          <%= render "transaction_entry_fields", :f => transaction_entry %>
+        <% end %>
+        <tr>
+          <td>
+            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, :tabindex => autotab, :id => "add-transaction-entry", :"container-tag" => "tr" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="actions">
     <%= f.submit :tabindex => autotab %>
   </div>
