@@ -12,6 +12,7 @@ class Account < ActiveRecord::Base
   has_many :transaction_entries
   has_many :transactions, :through => :transaction_entries
   scope :root_accounts, where(:parent_id => nil).order(:name)
+  validates :name, :length => { :minimum => 3 }
 
   def delete_associated_transactions
     self.transactions.each(&:destroy)
