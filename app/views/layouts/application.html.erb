@@ -6,6 +6,7 @@
     <%= javascript_include_tag "application" %>
     <%= javascript_include_tag 'autocomplete-rails.js'  %>
     <%= javascript_include_tag 'jquery-ui-1.8.20.custom.min' %>
+    <%= javascript_include_tag 'jquery.hotkeys' %>
     <%= stylesheet_link_tag 'jquery-ui-1.8.20.custom.css' %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
@@ -20,5 +21,15 @@
       <%= yield %>
     </div>
     <%= yield(:javascripts) %>
+    <script type="text/javascript">
+      <%= hotkey_for_path_js('t', transactions_path) %>
+      <%= hotkey_for_path_js('shift+t', new_transaction_path) %>
+      <%= hotkey_for_path_js('a', accounts_path) %>
+      <%= hotkey_for_path_js('shift+a', new_account_path) %>
+      $(document).bind('keyup', 'q', function(evt){ 
+        $('#transaction_date').focus();
+      });
+      <% # TODO: set hotkey for help '?' %>
+    </script>
   </body>
 </html>

@@ -39,4 +39,11 @@ module ApplicationHelper
   def destroy_icon
     image_tag("page_delete.png", :size => '16x16', :alt => 'Delete', :title => 'Delete') #+ "Delete"
   end
+
+  def hotkey_for_path_js(hotkey, path)
+    "$(document).bind('keyup', '#{hotkey}', function(evt){
+       window.location = '#{path}';
+     });
+    "
+  end
 end
