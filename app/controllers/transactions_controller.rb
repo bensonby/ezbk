@@ -6,17 +6,17 @@ class TransactionsController < ApplicationController
   end
 
   def autocomplete_transaction_tostring
-    @return_list = [];
-    Transaction.all.each do |t|
-      ok = true
-      params[:term].split.each do |s|
-        if !t.tostring.downcase.include? s.downcase
-          ok = false
-          break
-        end
-      end
-      @return_list.push({:id => t.id, :value => t.tostring}) if ok
+    where_sql = params[:term].split.map do |term|
+                  "(transactions.description like '%#{term}%' or
+                    accounts.name like '%#{term}%' or
+                    cast(transaction_entries.debit_amount as CHAR(11)) like '%#{term}%')"
+                end.join(" AND ")
+    transactions = Transaction.joins(:transaction_entries => :account).where(where_sql).limit(20).reduce(Hash.new) do |list, t|
+      list[t.id] = t.tostring if !list.has_value?(t.tostring)
+      list
     end
+    @return_list = []
+    transactions.each {|id,value| @return_list.push({:id => id, :value => value})}
     render :json => @return_list
   end
 
@@ -65,6 +65,10 @@ class TransactionsController < ApplicationController
 
   # POST /transactions/quick_create
   def quick_create
+    if params[:transaction_id].blank?
+      redirect_to transactions_path, :alert => 'No existing transaction selected for quick create'
+      return
+    end
     existing = Transaction.find(params[:transaction_id])
     @transaction = existing.dup
     @transaction.transaction_entries << existing.transaction_entries.collect { |t| t.dup }
