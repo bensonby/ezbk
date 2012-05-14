@@ -74,7 +74,7 @@ class TransactionsController < ApplicationController
         if params[:edit]
           format.html { redirect_to "/transactions/#{@transaction.id}/edit", :notice => 'Transaction was successfully created.' }
         else
-          format.html { redirect_to :action => :index, :notice => 'Transaction was successfully created.' }
+          format.html { redirect_to transactions_path, :notice => 'Transaction was successfully created.' }
         end
         format.json { render :json => @transaction, :status => :created, :location => @transaction }
       else
