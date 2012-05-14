@@ -1,6 +1,9 @@
 <%= render 'transactions/quick_create' %>
 <h1>Listing accounts</h1>
-<h3><%= link_to '>> Create New Account', new_account_path %></h3>
+<h3><div class="link-button"><%= link_to '>> Create New Account', new_account_path, :tabindex => autotab %></div>
+    <div class="link-button"><%= link_to '>> Create New Transaction', new_transaction_path, :tabindex => autotab %></div>
+    <div class="clear"></div>
+</h3>
 
 <table class="account-list">
   <tr>
