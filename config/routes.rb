@@ -1,5 +1,5 @@
 Fin::Application.routes.draw do
-  root :to => 'accounts#index'
+  root :to => 'transactions#index'
   get 'transaction_entries/autocomplete_account_name'
   get 'accounts/autocomplete_account_name'
   get 'transactions/autocomplete_transaction_tostring'
