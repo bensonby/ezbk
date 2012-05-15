@@ -1,13 +1,14 @@
 <div id="transaction-quick-create">
 <h3>Quick Create Transaction from Existing</h3>
-  <%= form_tag :controller => 'transactions', :action => 'quick_create' do %>
+  <ul id="form-validation-messages" style="display: none;"></ul>
+  <%= form_tag transactions_quick_create_path, :id => 'quick-create-form' do %>
     <span class="field">
-      <%= label_tag 'transaction_date', 'Transaction Date:' %>
-      <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab, :class => 'date' %>
+      <%= label_tag 'transaction_date', 'Date:' %>
+      <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab, :class => 'date required' %>
     </span>
     <span class="field">
-      <%= label_tag 'transaction_id', 'Keywords:' %>
-      <%= hidden_field_tag 'transaction_id', '' %>
+      <%= label_tag 'transaction_id', 'Transaction:' %>
+      <%= hidden_field_tag 'transaction_id', '', :class => 'required' %>
       <%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id' %>
     </span>
     <span class="field">
@@ -19,3 +20,29 @@
     </span>
   <% end %>
 </div>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  $('#quick-create-form').validate({
+/*    debug: true,*/
+    ignore: [],
+    errorLabelContainer: "#form-validation-messages",
+    wrapper: 'li',
+    rules: {
+      transaction_id: {
+        required: true,
+        minlength: 1
+      },
+      transaction_date: {
+        required: true,
+        dateISO: true,
+        rangelength: [10,10]
+      }
+    },
+    messages: {
+      transaction_date: "Please enter a valid transaction date (YYYY-MM-DD)",
+      transaction_id:   "Please select an existing transaction"
+    }
+  });
+</script>
+<% end %>

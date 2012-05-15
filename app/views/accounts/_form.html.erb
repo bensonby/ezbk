@@ -1,3 +1,4 @@
+<ul id="form-validation-messages" style="display: none;"></ul>
 <%= form_for(@account) do |f| %>
   <% if @account.errors.any? %>
     <div id="error_explanation">
@@ -27,4 +28,31 @@
   <div class="actions">
     <%= f.submit :tabindex => autotab %>
   </div>
+<% end %>
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+  $('#new_account').validate({
+    ignore: [],
+    errorLabelContainer: "#form-validation-messages",
+    wrapper: 'li',
+    rules: {
+      "account[name]": {
+         required: true,
+         minlength: 3
+      },
+      "account[parent_id]": {
+        required: {
+          depends: function(element){
+            return $('#parent_id').val()!="";
+          }
+        }
+      }
+    },
+    messages: {
+      "account[name]": "At least 3 characters required",
+      "account[parent_id]": "You have entered something in the Parent Account but not selected the account"
+    }
+  });
+</script>
 <% end %>

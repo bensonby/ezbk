@@ -67,5 +67,29 @@ $('.input-debit-amount').live('change', function(event){
   }
   $(".input-debit-amount:not(.manual-input):first").val(-total.toFixed(2));
 });
+
+  $('#new_transaction').validate({
+/*    debug: true,*/
+    ignore: [],
+    errorLabelContainer: "#form-validation-messages",
+    wrapper: 'li',
+    rules: {
+      transaction_id: {
+        required: true,
+        minlength: 1
+      },
+      transaction_date: {
+        required: true,
+        dateISO: true,
+        rangelength: [10,10]
+      }
+    },
+    messages: {
+      transaction_date: "Please enter a valid transaction date (YYYY-MM-DD)",
+      transaction_id:   "Please select an existing transaction"
+    }
+  });
+
+
 </script>
 <% end %>

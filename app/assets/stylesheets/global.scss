@@ -55,3 +55,8 @@ table.transaction-list {
     border-top: 1px solid #666;
   }
 }
+ul#form-validation-messages {
+  border: 2px solid red;
+  background-color: #FFFFBF;
+  font-weight: bold;
+}
