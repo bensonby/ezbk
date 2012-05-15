@@ -50,9 +50,7 @@ $('.input-debit-amount').live('change', function(event){
 });
 
 function highlight_account_in_transactions(account_name){
-  $('#account-transactions-container a').
-filter(function(){ return $(this).html() == account_name; }).
-each(function(index, e){
+  $('#account-transactions-container a').filter(function(){ return $(this).html() == account_name; }).each(function(index, e){
     $(e).closest("tr").addClass('current-account');
   });
 }

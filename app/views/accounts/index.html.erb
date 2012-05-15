@@ -4,8 +4,12 @@
     <div class="link-button"><%= link_to '>> Create New Transaction', new_transaction_path, :tabindex => autotab %></div>
     <div class="clear"></div>
 </h3>
+<div class="field">
+  <%= check_box_tag 'hide-zero-accounts' %>
+  <%= label_tag 'hide-zero-accounts', 'Hide accounts with zero balance' %>
+</div>
 
-<table class="account-list">
+<table id="account-list">
   <tr>
     <th></th>
     <th></th>
@@ -17,4 +21,18 @@
 </table>
 
 <br />
+
+<% content_for :javascripts do %>
+<script type="text/javascript">
+$('#hide-zero-accounts').click(function(evt){
+  if(this.checked){
+    $('table#account-list tbody tr').filter(function(index){
+      return $(this).find('td.account-currency a').first().html() == "0.00";
+    }).hide();
+  }else{
+    $('table#account-list tr').show();
+  }
+});
+</script>
+<% end %>
 
