@@ -41,6 +41,12 @@
 
 <% content_for :javascripts do %>
   <script type="text/javascript">
+    function highlight_account_in_transactions(account_name){
+      $('#account-transactions-container a').filter(function(){ return $(this).html() == account_name; }).each(function(index, e){
+        $(e).closest("tr").addClass('current-account');
+      });
+    }
+
     highlight_account_in_transactions("<%= @account.name %>");
   </script>
 <% end %>

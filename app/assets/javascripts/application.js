@@ -28,29 +28,3 @@ function add_fields(link, association, content) {
   }
   container.before(content.replace(regexp, new_id));
 }
-
-$('.input-debit-amount').live('change', function(event){
-  if($(this).val() != "") $(this).addClass("manual-input");
-  else $(this).removeClass("manual-input");
-  $(".input-debit-amount:not(.manual-input)").each(function(index, e){
-    $(e).val("");
-  });
-
-  var total = 0.0;
-  $(".input-debit-amount.manual-input").each(function(i,e){ total+=parseFloat($(e).val()); });
-  if(total.toFixed(2) == "0.00") return ;
-  if($(".input-debit-amount:not(.manual-input)").length == 0){
-    var add_transaction_entry_element = $('#add-transaction-entry');
-    var scripts = add_transaction_entry_element.attr('onclick');
-    scripts = scripts.substr(0, scripts.length-13);
-    scripts = scripts.replace(/add_fields\(this/, "add_fields($('#add-transaction-entry')");
-    eval(scripts);
-  }
-  $(".input-debit-amount:not(.manual-input):first").val(-total.toFixed(2));
-});
-
-function highlight_account_in_transactions(account_name){
-  $('#account-transactions-container a').filter(function(){ return $(this).html() == account_name; }).each(function(index, e){
-    $(e).closest("tr").addClass('current-account');
-  });
-}
