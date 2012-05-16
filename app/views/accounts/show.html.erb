@@ -36,7 +36,7 @@
 <h1>Listing Transactions - <%= @account.name %></h1>
 <h3><%= link_to '>> Create New Transaction', new_transaction_path %></h3>
 <div id="account-transactions-container">
-<%= render "transactions/transaction_entries", :transactions => @account.transactions %>
+<%= render "transactions/transaction_entries", :transactions => @transactions %>
 </div>
 
 <% content_for :javascripts do %>

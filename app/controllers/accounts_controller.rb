@@ -22,6 +22,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1.json
   def show
     @account = Account.find(params[:id])
+    @transactions = @account.transactions.order("transaction_date DESC, id DESC")
 
     respond_to do |format|
       format.html # show.html.erb
