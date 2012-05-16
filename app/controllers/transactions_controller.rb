@@ -1,4 +1,5 @@
 class TransactionsController < ApplicationController
+  http_basic_authenticate_with :name => "bensonby", :password => "bensojdk"
   before_filter :set_page_name
 
   def set_page_name

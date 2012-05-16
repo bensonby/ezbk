@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+  http_basic_authenticate_with :name => "bensonby", :password => "bensojdk"
   autocomplete :account, :name
   before_filter :set_page_name
 
