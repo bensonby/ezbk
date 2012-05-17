@@ -8,6 +8,7 @@
     <%= javascript_include_tag 'jquery-ui-1.8.20.custom.min' %>
     <%= javascript_include_tag 'jquery.hotkeys' %>
     <%= javascript_include_tag 'jquery.validate' %>
+    <%= javascript_include_tag 'global' %>
     <%= stylesheet_link_tag 'jquery-ui-1.8.20.custom.css' %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
@@ -21,6 +22,7 @@
       <%= content_tag :h1, yield(:title) if show_title? %>
       <%= yield %>
     </div>
+    <%= render :partial => 'layouts/help' %>
     <%= yield(:javascripts) %>
     <script type="text/javascript">
       <%= hotkey_for_path_js('t', transactions_path) %>
@@ -30,7 +32,10 @@
       $(document).bind('keyup', 'q', function(evt){ 
         $('#transaction_date').focus();
       });
-      <% # TODO: set hotkey for help '?' %>
+      $(document).bind('keyup', 'shift+/', show_help);
+      $(document).bind('keyup', 'esc', hide_help);
+      $('#help_button').click(show_help);
+      $('#close_help_button').click(hide_help);
     </script>
   </body>
 </html>
