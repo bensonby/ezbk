@@ -71,6 +71,7 @@ div#help {
   top: 50px;
   left: 50px;
   padding: 8px 20px;
+  border-radius: 10px;
   a {
     color: white;
   }
@@ -82,4 +83,8 @@ td.help-key {
   color: yellow;
   text-align: right;
 }
-
+div#close_help_button {
+  float: right;
+  font-size: 1.3em;
+  padding: 5px;
+}
