@@ -8,6 +8,7 @@ class Transaction < ActiveRecord::Base
   validate :zero_balance
   validate :entries_presence
   after_initialize :init
+  scope :of_user, lambda { |user| joins(:transaction_entries => :account).where(:accounts => {:user_id => user.id}) }
 
   def init
     self.transaction_date ||= (DateTime.now - 7.hours).to_date.to_s #I don't expect we will enter the transaction for that day before 7am in the morning..

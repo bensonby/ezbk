@@ -17,7 +17,7 @@
     <th>Current Balance</th>
   </tr>
 
-<%= render :partial => 'account',:collection => Account.root_accounts, :locals => {:level => 0} %>
+<%= render :partial => 'account',:collection => @accounts.root_accounts, :locals => {:level => 0} %>
 </table>
 
 <br />

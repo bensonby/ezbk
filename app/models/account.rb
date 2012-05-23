@@ -7,10 +7,12 @@ class Account < ActiveRecord::Base
   after_save :save_parent_accounts
   attr_accessible :name, :parent_id, :opening_balance
   #:current_balance
+  belongs_to :user
   belongs_to :parent, :class_name => 'Account'
   has_many :children, :class_name => 'Account', :foreign_key => 'parent_id', :dependent => :destroy, :order => "name"
   has_many :transaction_entries
   has_many :transactions, :through => :transaction_entries
+  scope :of, lambda { |user| where(:user_id => user.id) }
   scope :root_accounts, where(:parent_id => nil).order(:name)
   validates :name, :length => { :minimum => 3 }
 

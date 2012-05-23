@@ -40,3 +40,4 @@ gem 'jquery-rails'
 
 gem 'rails3-jquery-autocomplete'
 gem 'nifty-generators'
+gem 'authlogic'

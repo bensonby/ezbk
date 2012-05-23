@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  http_basic_authenticate_with :name => "bensonby", :password => ""
+  before_filter :require_user
   before_filter :set_page_name
 
   def set_page_name
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.find(:all, :order => "transaction_date DESC, id DESC")
+    @transactions = Transaction.of_user(current_user).find(:all, :order => "transaction_date DESC, id DESC").uniq!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -131,5 +131,11 @@ class TransactionsController < ApplicationController
       format.html { redirect_to transactions_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def current_user_transactions
+    Transaction.of_user(current_user)
   end
 end
