@@ -13,6 +13,14 @@ input.date {
 input.input-debit-amount {
   width: 100px;
 }
+div {
+&.flash, &.error, &.alert, &.notice, &.success, &.info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
+&.success {background:#e6efc2;color:#264409;border-color:#c6d880;}
+&.alert {border-color: #FBEED5; background-color: #FCF8E3; color: #C09853;}
+&.error {border-color: #EED3D7; background-color: #F2DEDE; color: #B94A48; }
+&.success{ border-color: #D6E9C6; background-color: #DFF0D8; color: #468847; }
+&.info, &.notice, &.flash { border-color: #BCE8F1; background-color: #D9EDF7; color: #3A87AD; }
+}
 div.button {
   border-color: #AAA; 
   box-shadow: 0 0 3px #AAA;
