@@ -16,11 +16,6 @@
   <body class="<%= @page_name %>">
     <div id="container">
       <%= render :partial => 'layouts/menu' %>
-<p>
-  <% if current_user %>
-    Hello <%= current_user.login %> (<%= link_to 'Not you?', logout_path, :method => :delete %>)
-  <% end %>
-</p>
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}", :class => "flash" %>
       <% end %>

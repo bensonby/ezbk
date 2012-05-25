@@ -29,6 +29,9 @@ div.button {
   background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
+ul#nav-help {
+  float: right;
+}
 div.link-button {
   background-color: #E3E3E3;
   border-radius: 6px;
