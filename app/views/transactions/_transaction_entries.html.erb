@@ -11,8 +11,8 @@
   <tr class="transaction-info">
     <td><div class="button"><%= link_to edit_icon, edit_transaction_path(transaction) %></div></td>
     <td><div class="button"><%= link_to destroy_icon, transaction, :confirm => 'Are you sure?', :method => :delete %></div></td>
-    <td><%= transaction.transaction_date %></td>
-    <td><%= transaction.description %></td>
+    <td class="date"><%= transaction.transaction_date %></td>
+    <td class="description"><%= transaction.description %></td>
     <td></td>
     <td></td>
   </tr>
@@ -22,8 +22,8 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><%= link_to entry.account.name, entry.account if entry.account %></td>
-      <td class="currency"><%= currency_format(entry.debit_amount) %></td>
+      <td class="account"><%= link_to entry.account.name, entry.account if entry.account %></td>
+      <td class="currency amount"><%= currency_format(entry.debit_amount) %></td>
     </tr>
   <% end %>
 <% end.empty? %>

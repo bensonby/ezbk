@@ -9,7 +9,7 @@
     <span class="field">
       <%= label_tag 'transaction_id', 'Transaction:' %>
       <%= hidden_field_tag 'transaction_id', '', :class => 'required' %>
-      <%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id' %>
+      <%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id', :class => 'transaction-tostring' %>
     </span>
     <span class="field">
       <%= check_box_tag 'edit', 'edit', false, :tabindex => autotab %>

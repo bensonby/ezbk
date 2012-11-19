@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
                     accounts.name like '%#{term}%' or
                     cast(transaction_entries.debit_amount as CHAR(11)) like '%#{term}%')"
                 end.join(" AND ")
-    transactions = Transaction.joins(:transaction_entries => :account).where(where_sql).limit(20).reduce(Hash.new) do |list, t|
+    transactions = Transaction.joins(:transaction_entries => :account).where(where_sql).limit(100).reduce(Hash.new) do |list, t|
       list[t.id] = t.tostring if !list.has_value?(t.tostring)
       list
     end
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.of_user(current_user).find(:all, :order => "transaction_date DESC, id DESC").uniq!
+    @transactions = Transaction.of_user(current_user).paginate(:page => params[:page]).order("transaction_date DESC, id DESC").uniq!
 
     respond_to do |format|
       format.html # index.html.erb

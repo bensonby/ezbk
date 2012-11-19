@@ -59,7 +59,10 @@ div#transaction-quick-create {
   border-radius: 5px;
   background-color: #DDD;
   padding: 10px;
-  width: 650px;
+  width: 760px;
+  input.transaction-tostring {
+    width: 300px;
+  }
 }
 table.transaction-list {
   border-collapse: collapse;
@@ -76,12 +79,11 @@ div#help {
   position: absolute;
   z-index: 10;
   width: 700px;
-  height: 500px;
   background-color: #333;
   color: white;
   top: 50px;
   left: 50px;
-  padding: 8px 20px;
+  padding: 20px;
   border-radius: 10px;
   a {
     color: white;

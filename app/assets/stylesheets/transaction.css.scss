@@ -2,6 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+table.transaction-list {
+  td.date        { width: 150px; }
+  td.description { width: 270px; }
+  td.account     { width: 150px; }
+  td.amount      { width: 110px; }
+}
+
 td.currency {
   text-align: right;
 }

@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+  self.per_page = 20 #20 transaction entries, not 20 transactions
   has_many :transaction_entries, :dependent => :destroy, :order => "debit_amount DESC"
   has_many :accounts, :through => :transaction_entries
   attr_accessible :transaction_date, :description, :transaction_entries_attributes
@@ -11,7 +12,7 @@ class Transaction < ActiveRecord::Base
   scope :of_user, lambda { |user| joins(:transaction_entries => :account).where(:accounts => {:user_id => user.id}) }
 
   def init
-    self.transaction_date ||= (DateTime.now - 7.hours).to_date.to_s #I don't expect we will enter the transaction for that day before 7am in the morning..
+    self.transaction_date ||= (DateTime.now - 7.hours).to_date.to_s #I don't expect we will enter the transaction for a day before 7am in the morning of that same day
   end
 
   def zero_balance

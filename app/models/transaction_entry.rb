@@ -1,5 +1,6 @@
 class TransactionEntry < ActiveRecord::Base
   attr_accessible :debit_amount, :transaction_id, :account_id
+  attr_protected :account_balance
   after_destroy :calculate_account_current_balance
   after_save :calculate_account_current_balance
   belongs_to :transaction, :foreign_key => 'transaction_id'
@@ -10,5 +11,9 @@ class TransactionEntry < ActiveRecord::Base
 
   def calculate_account_current_balance
     self.account.save!
+  end
+
+  def account_balance=(value)
+    self.account_balance = value
   end
 end
