@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   before_filter :set_page_name
 
   def set_page_name
-    @page_name = "accounts"
+    @page_name = "accounts" + (params[:stmt_type] == 'bs' ? '-bs' : '-is')
   end
 
   def autocomplete_account_name
@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = current_user_accounts
+    @accounts = current_user_accounts.where(:name => params[:stmt_type] == 'bs' ? ['Assets', 'Liabilities'] : ['Incomes', 'Expenses'])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @accounts }
