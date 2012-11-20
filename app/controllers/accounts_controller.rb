@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   before_filter :set_page_name
 
   def set_page_name
-    @page_name = "accounts" + (params[:stmt_type] == 'bs' ? '-bs' : '-is')
+    @page_name = "accounts-" + (params[:stmt_type] == 'bs' ? 'bs' : 'is')
   end
 
   def autocomplete_account_name

@@ -27,8 +27,9 @@
     <script type="text/javascript">
       <%= hotkey_for_path_js('t', transactions_path) %>
       <%= hotkey_for_path_js('shift+t', new_transaction_path) %>
-      <%= hotkey_for_path_js('a', accounts_path) %>
       <%= hotkey_for_path_js('shift+a', new_account_path) %>
+      <%= hotkey_for_path_js('b', accounts_path(:stmt_type => 'bs')) %>
+      <%= hotkey_for_path_js('i', accounts_path(:stmt_type => 'is')) %>
       $(document).bind('keyup', 'q', function(evt){ 
         $('#transaction_date').focus();
       });
