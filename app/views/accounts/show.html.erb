@@ -35,6 +35,7 @@
 
 <h1>Listing Transactions - <%= @account.name %></h1>
 <h3><%= link_to '>> Create New Transaction', new_transaction_path %></h3>
+<%= will_paginate @transactions %>
 <div id="account-transactions-container">
 <%= render "transactions/transaction_entries", :transactions => @transactions %>
 </div>

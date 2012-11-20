@@ -35,7 +35,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1.json
   def show
     @account = current_user_accounts.find(params[:id])
-    @transactions = @account.transactions.order("transaction_date DESC, id DESC")
+    @transactions = @account.transactions.paginate(:page => params[:page]).order("transaction_date DESC, id DESC")
 
     respond_to do |format|
       format.html # show.html.erb
