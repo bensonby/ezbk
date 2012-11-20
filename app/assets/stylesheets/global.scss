@@ -1,3 +1,8 @@
+h1 {
+/*  margin-top: 5px;*/
+  clear: both;
+}
+
 div.clear {
   clear: both;
 }
@@ -89,8 +94,12 @@ div#help {
     color: white;
   }
 }
-table#keyboard_shortcuts {
+table#keyboard_shortcuts-part1 {
   margin-left: 10px;
+}
+table#keyboard_shortcuts-part2 {
+  float: right;
+  margin-right: 20px;
 }
 td.help-key {
   color: yellow;
