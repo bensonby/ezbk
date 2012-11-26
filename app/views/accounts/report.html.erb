@@ -1,0 +1,29 @@
+<%= render 'transactions/quick_create' %>
+<h1>Listing accounts</h1>
+<h3><div class="link-button"><%= link_to '>> Create New Account', new_account_path, :tabindex => autotab %></div>
+    <div class="link-button"><%= link_to '>> Create New Transaction', new_transaction_path, :tabindex => autotab %></div>
+    <div class="clear"></div>
+</h3>
+<div class="field">
+  <%= check_box_tag 'hide-zero-accounts' %>
+  <%= label_tag 'hide-zero-accounts', 'Hide accounts with zero balance' %>
+</div>
+
+<table>
+  <thead><tr>
+    <th></th><% @periods.each do |item| %><th><%=item.year %> <%=item.month%></th><% end %>
+  </tr></thead>
+  <tbody>
+    <% @accounts.each do |account| %>
+    <tr>
+      <th><%=account.name %></th>
+      <% @periods.each do |period| %>
+        <td class="currency" style="padding: 8px;">
+          <% entry = @summary.select {|row| row.year == period.year and row.month == period.month and row.id == account.id} %>
+          <%=currency_format(entry[0] ? entry[0].total : 0) %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

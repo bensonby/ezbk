@@ -17,6 +17,23 @@ class Account < ActiveRecord::Base
   scope :root_accounts, where(:parent_id => nil).order(:name)
   validates :name, :length => { :minimum => 3 }
 
+  def full_name(prefix = false)
+    (self.parent ? self.parent.full_name(true) : "") + self.name + (prefix ? ":" : "")
+  end
+
+  def depth
+    self.parent ? (1+self.parent.depth) : 0
+  end
+
+  def within_depth(depth)
+    return self if depth == 0
+    self.children.empty? ? self : self.children.map{|acc| acc.within_depth(depth-1) }.flatten
+  end
+
+  def descendants
+    ([self] + (!self.children.empty? ? self.children.map{|acc| acc.descendants } : [])).flatten
+  end
+
   def upon_editing_opening_balance
     if self.opening_balance_changed?
       self.update_transaction_entry_balances
