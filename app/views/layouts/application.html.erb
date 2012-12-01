@@ -30,6 +30,7 @@
       <%= hotkey_for_path_js('shift+a', new_account_path) %>
       <%= hotkey_for_path_js('b', accounts_path(:stmt_type => 'bs')) %>
       <%= hotkey_for_path_js('i', accounts_path(:stmt_type => 'is')) %>
+      <%= hotkey_for_path_js('e', accounts_expense_report_path) %>
       $(document).bind('keyup', 'q', function(evt){ 
         $('#transaction_date').focus();
       });

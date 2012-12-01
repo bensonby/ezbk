@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
                     accounts.name like '%#{term}%' or
                     cast(transaction_entries.debit_amount as CHAR(11)) like '%#{term}%')"
                 end.join(" AND ")
-    transactions = Transaction.joins(:transaction_entries => :account).where(where_sql).limit(100).reduce(Hash.new) do |list, t|
+    transactions = current_user_transactions.joins(:transaction_entries => :account).where(where_sql).limit(100).reduce(Hash.new) do |list, t|
       list[t.id] = t.tostring if !list.has_value?(t.tostring)
       list
     end

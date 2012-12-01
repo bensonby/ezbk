@@ -9,14 +9,19 @@
 </div>
   <div class="nav_links">
     <ul id="nav-menu">
-      <li class="accounts-bs"><%= link_to 'Balance Sheet', accounts_path(:stmt_type => 'bs') %></li>
-      <li class="accounts-is"><%= link_to 'Income Stmt', accounts_path(:stmt_type => 'is') %></li>
-      <li class="transactions"><%= link_to 'Transactions', transactions_path %></li>
       <li><%= link_to 'LRT', 'http://www.mtr.com.hk/jplanner/eng/lr_planner_index.php', :class => 'external', :target => '_blank' %></li>
       <li><%= link_to 'MTR Fares', 'http://tw.piliapp.com/hongkong-mtr/', :class => 'external', :target => '_blank' %></li>
       <li><%= link_to 'MTR Codes', 'http://hkrail.wikia.com/wiki/%E6%B8%AF%E9%90%B5%E8%BB%8A%E7%AB%99%E4%BB%A3%E8%99%9F', :class => 'external', :target => '_blank' %></li>
       <li><%= link_to 'KMB', 'http://www.kmb.hk/tc/services/search.html', :class => 'external', :target => '_blank' %></li>
       <li><%= link_to 'CityBus', 'http://www.nwstbus.com.hk/', :class => 'external', :target => '_blank' %></li>
+    </ul>
+  </div>
+  <div class="nav_links">
+    <ul id="nav-menu">
+      <li class="accounts-bs"><%= link_to 'Balance Sheet', accounts_path(:stmt_type => 'bs') %></li>
+      <li class="accounts-is"><%= link_to 'Income Stmt', accounts_path(:stmt_type => 'is') %></li>
+      <li class="transactions"><%= link_to 'Transactions', transactions_path %></li>
+      <li class="expense_report"><%= link_to 'Expense Report', accounts_expense_report_path %></li>
     </ul>
   </div>
   <div class="clear"></div>

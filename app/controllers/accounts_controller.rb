@@ -22,6 +22,7 @@ class AccountsController < ApplicationController
   end
 
   def report
+    @page_name = "expense_report"
     expense_transactions=Transaction.joins(:transaction_entries => :account).where("transaction_entries.account_id" => Account.of(current_user).find_by_name("Expenses").descendants.map{|a| a.id})
     @summary = expense_transactions.select("accounts.id, accounts.name,year(transactions.transaction_date) as year,month(transactions.transaction_date) as month,sum(transaction_entries.debit_amount) as total").group("accounts.id, accounts.name, year, month").order("accounts.parent_id, accounts.name, year, month")
     @accounts = expense_transactions.select("accounts.id, accounts.name").group("accounts.id, accounts.name").order("accounts.name")
