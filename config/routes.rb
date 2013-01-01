@@ -10,6 +10,7 @@ Fin::Application.routes.draw do
   match 'logout' => "user_sessions#destroy", :as => 'logout'
   resources :users
   
+  match 'accounts/expense_report' => 'accounts#report'
   resources :accounts
   resources :transaction_entries
   resources :transactions do
