@@ -25,7 +25,12 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.of_user(current_user).paginate(:page => params[:page]).order("transaction_date DESC, id DESC").uniq!
+    start_date = params[:start_date].nil? ? "1970-01-01 00:00:00" : params[:start_date]
+    end_date = params[:end_date].nil? ? "2100-01-01 00:00:00" : params[:end_date]
+    @transactions = Transaction.of_user(current_user).
+                    where("transaction_date" => (start_date)..(end_date)).
+                    paginate(:page => params[:page]).
+                    order("transaction_date DESC, id DESC").uniq!
 
     respond_to do |format|
       format.html # index.html.erb
