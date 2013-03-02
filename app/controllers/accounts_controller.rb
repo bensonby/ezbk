@@ -27,11 +27,31 @@ class AccountsController < ApplicationController
     @summary = expense_transactions.select("accounts.id, accounts.name,year(transactions.transaction_date) as year,month(transactions.transaction_date) as month,sum(transaction_entries.debit_amount) as total").group("accounts.id, accounts.name, year, month").order("accounts.parent_id, accounts.name, year, month")
     @accounts = expense_transactions.select("accounts.id, accounts.name").group("accounts.id, accounts.name").order("accounts.name")
     @periods = expense_transactions.select("year(transactions.transaction_date) as year, month(transactions.transaction_date) as month").group("year, month")
+
+    is_amounts_query = current_user_accounts.joins(:transaction_entries => :transaction).
+#                       where("transactions.transaction_date" => ("2013-02-01 00:00:00")..("2013-02-28 23:59:59")).
+                       select("accounts.id, accounts.name, sum(transaction_entries.debit_amount) as total_amount").group("accounts.id, accounts.name").
+                       order("accounts.name")
+    @is_amounts = Hash[is_amounts_query.map { |p| [p.id, p] }]
+  end
+
+  def get_amount(account_id, hash)
+    if hash.has_key?(account_id)
+      hash[account_id].total_amount
+    else
+      0
+    end
   end
 
   # GET /accounts
   # GET /accounts.json
   def index
+    is_amounts_query = current_user_accounts.joins(:transaction_entries => :transaction).
+                       where("transactions.transaction_date" => (Time.now.beginning_of_month())..(Time.now.end_of_month())).
+                       select("accounts.id, accounts.name, sum(transaction_entries.debit_amount) as total_amount").group("accounts.id, accounts.name").
+                       order("accounts.name")
+    @is_amounts = Hash[is_amounts_query.map { |p| [p.id, p] }]
+
     @accounts = current_user_accounts.where(:name => params[:stmt_type] == 'bs' ? ['Assets', 'Liabilities'] : ['Incomes', 'Expenses'])
     respond_to do |format|
       format.html # index.html.erb

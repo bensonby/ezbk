@@ -3,6 +3,7 @@
     <td><div class="button"><%= link_to destroy_icon, account, :confirm => 'Are you sure?', :method => :delete %></div></td>
     <td class="account-name"><%= link_to account.name, account %></td>
     <td class="currency account-currency<%= " negative" if account.current_balance<0 %>"><%= link_to currency_format(account.current_balance), account %></td>
+    <td class="currency account-currency<%= " negative" if account.current_balance<0 %>"><%= link_to currency_format(get_account_value(@is_amounts, account)), account %></td>
   </tr>
   <% if !account.children.empty? %>
     <%= render :partial => 'account', :collection => account.children, :locals => {:level => level + 1 } %>

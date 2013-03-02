@@ -15,9 +15,16 @@
     <th></th>
     <th>Account Name</th>
     <th>Current Balance</th>
+    <th>Monthly Balance</th>
   </tr>
 
 <%= render :partial => 'account',:collection => @accounts.root_accounts, :locals => {:level => 0} %>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>Savings</td>
+    <td></td>
+    <td class="currency"><%=currency_format(get_saving_amount(@is_amounts, @accounts))%></td>
 </table>
 
 <br />
