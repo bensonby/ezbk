@@ -19,12 +19,15 @@
   </tr>
 
 <%= render :partial => 'account',:collection => @accounts.root_accounts, :locals => {:level => 0} %>
+<% if params[:stmt_type] == 'is' %>
   <tr>
     <td></td>
     <td></td>
     <td>Savings</td>
     <td></td>
     <td class="currency"><%=currency_format(get_saving_amount(@is_amounts, @accounts))%></td>
+  </tr>
+<% end %>
 </table>
 
 <br />
