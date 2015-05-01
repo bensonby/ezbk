@@ -1,8 +1,7 @@
-class Transaction < ActiveRecord::Base
+class Tranxaction < ActiveRecord::Base
   self.per_page = 20 #20 transaction entries, not 20 transactions
-  has_many :transaction_entries, :dependent => :destroy, :order => "debit_amount DESC"
+  has_many :transaction_entries, -> { order(debit_amount: :desc) }, :dependent => :destroy
   has_many :accounts, :through => :transaction_entries
-  attr_accessible :transaction_date, :description, :transaction_entries_attributes
   accepts_nested_attributes_for :transaction_entries, :reject_if => lambda { |a| a[:debit_amount].blank? }, :allow_destroy => true
   validates_presence_of :transaction_date
   validates_presence_of :description

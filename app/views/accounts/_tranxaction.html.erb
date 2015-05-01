@@ -3,7 +3,7 @@
     <td><%= transaction.description %></td>
     <td></td>
     <td></td>
-    <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
+    <td><%= link_to 'Edit', edit_tranxaction_path(transaction) %></td>
     <td><%= link_to 'Destroy', transaction, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
   <% transaction.transaction_entries.each do |entry| %>

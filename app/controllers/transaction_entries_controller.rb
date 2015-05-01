@@ -40,7 +40,8 @@ class TransactionEntriesController < ApplicationController
   # POST /transaction_entries
   # POST /transaction_entries.json
   def create
-    @transaction_entry = TransactionEntry.new(params[:transaction_entry])
+    #@transaction_entry = TransactionEntry.new(params[:transaction_entry])
+    @transaction_entry = TransactionEntry.new(params.require(:transaction_entry).permit(:debit_amount, :tranxaction_id, :account_id))
 
     respond_to do |format|
       if @transaction_entry.save
@@ -59,7 +60,8 @@ class TransactionEntriesController < ApplicationController
     @transaction_entry = TransactionEntry.find(params[:id])
 
     respond_to do |format|
-      if @transaction_entry.update_attributes(params[:transaction_entry])
+      #if @transaction_entry.update_attributes(params[:transaction_entry])
+      if @transaction_entry.update_attributes(params.require(:transaction_entry).permit(:debit_amount, :tranxaction_id, :account_id))
         format.html { redirect_to @transaction_entry, :notice => 'Transaction entry was successfully updated.' }
         format.json { head :no_content }
       else

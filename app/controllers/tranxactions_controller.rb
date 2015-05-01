@@ -1,4 +1,4 @@
-class TransactionsController < ApplicationController
+class TranxactionsController < ApplicationController
   before_filter :require_user
   before_filter :set_page_name
 
@@ -8,7 +8,7 @@ class TransactionsController < ApplicationController
 
   def autocomplete_transaction_tostring
     where_sql = params[:term].split.map do |term|
-                  "(transactions.description like '%#{term}%' or
+                  "(tranxactions.description like '%#{term}%' or
                     accounts.name like '%#{term}%' or
                     cast(transaction_entries.debit_amount as CHAR(11)) like '%#{term}%')"
                 end.join(" AND ")
@@ -22,12 +22,12 @@ class TransactionsController < ApplicationController
   end
 
 
-  # GET /transactions
-  # GET /transactions.json
+  # GET /tranxactions
+  # GET /tranxactions.json
   def index
     start_date = params[:start_date].nil? ? "1970-01-01 00:00:00" : params[:start_date]
     end_date = params[:end_date].nil? ? "2100-01-01 00:00:00" : params[:end_date]
-    @transactions = Transaction.of_user(current_user).
+    @transactions = Tranxaction.of_user(current_user).
                     where("transaction_date" => (start_date)..(end_date)).
                     paginate(:page => params[:page]).
                     order("transaction_date DESC, id DESC").uniq!
@@ -38,10 +38,10 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # GET /transactions/1
-  # GET /transactions/1.json
+  # GET /tranxactions/1
+  # GET /tranxactions/1.json
   def show
-    @transaction = Transaction.find(params[:id])
+    @transaction = Tranxaction.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -49,10 +49,10 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # GET /transactions/new
-  # GET /transactions/new.json
+  # GET /tranxactions/new
+  # GET /tranxactions/new.json
   def new
-    @transaction = Transaction.new
+    @transaction = Tranxaction.new
 
     2.times do
       transaction_entry = @transaction.transaction_entries.build
@@ -64,27 +64,27 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # GET /transactions/1/edit
+  # GET /tranxactions/1/edit
   def edit
-    @transaction = Transaction.find(params[:id])
+    @transaction = Tranxaction.find(params[:id])
   end
 
-  # POST /transactions/quick_create
+  # POST /tranxactions/quick_create
   def quick_create
-    if params[:transaction_id].blank?
-      redirect_to transactions_path, :alert => 'No existing transaction selected for quick create'
+    if params[:tranxaction_id].blank?
+      redirect_to tranxactions_path, :alert => 'No existing transaction selected for quick create'
       return
     end
-    existing = Transaction.find(params[:transaction_id])
+    existing = Tranxaction.find(params[:tranxaction_id])
     @transaction = existing.dup
     @transaction.transaction_entries << existing.transaction_entries.collect { |t| t.dup }
     @transaction.transaction_date = params[:transaction_date]
     respond_to do |format|
       if @transaction.save
         if params[:edit]
-          format.html { redirect_to "/transactions/#{@transaction.id}/edit", :notice => 'Transaction was successfully created.' }
+          format.html { redirect_to "/tranxactions/#{@transaction.id}/edit", :notice => 'Transaction was successfully created.' }
         else
-          format.html { redirect_to transactions_path, :notice => 'Transaction was successfully created.' }
+          format.html { redirect_to tranxactions_path, :notice => 'Transaction was successfully created.' }
         end
         format.json { render :json => @transaction, :status => :created, :location => @transaction }
       else
@@ -94,10 +94,11 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # POST /transactions
-  # POST /transactions.json
+  # POST /tranxactions
+  # POST /tranxactions.json
   def create
-    @transaction = Transaction.new(params[:transaction])
+    #@transaction = Tranxaction.new(params[:tranxaction])
+    @transaction = Tranxaction.new(params.require(:tranxaction).permit(:transaction_date, :description, { transaction_entries_attributes: [:debit_amount, :tranxaction_id, :account_id]}))
 
     respond_to do |format|
       if @transaction.save
@@ -110,13 +111,13 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # PUT /transactions/1
-  # PUT /transactions/1.json
+  # PUT /tranxactions/1
+  # PUT /tranxactions/1.json
   def update
-    @transaction = Transaction.find(params[:id])
+    @transaction = Tranxaction.find(params[:id])
 
     respond_to do |format|
-      if @transaction.update_attributes(params[:transaction])
+      if @transaction.update_attributes(params.require(:tranxaction).permit(:transaction_date, :description, { transaction_entries_attributes: [:debit_amount, :tranxaction_id, :account_id]}))
         format.html { redirect_to @transaction, :notice => 'Transaction was successfully updated.' }
         format.json { head :no_content }
       else
@@ -126,14 +127,14 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # DELETE /transactions/1
-  # DELETE /transactions/1.json
+  # DELETE /tranxactions/1
+  # DELETE /tranxactions/1.json
   def destroy
-    @transaction = Transaction.find(params[:id])
+    @transaction = Tranxaction.find(params[:id])
     @transaction.destroy
 
     respond_to do |format|
-      format.html { redirect_to transactions_url }
+      format.html { redirect_to tranxactions_url }
       format.json { head :no_content }
     end
   end
@@ -141,6 +142,6 @@ class TransactionsController < ApplicationController
   private
 
   def current_user_transactions
-    Transaction.of_user(current_user)
+    Tranxaction.of_user(current_user)
   end
 end

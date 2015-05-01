@@ -4,11 +4,6 @@
     <title>Personal Finance Management</title>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "application" %>
-    <%= javascript_include_tag 'autocomplete-rails.js'  %>
-    <%= javascript_include_tag 'jquery-ui-1.8.20.custom.min' %>
-    <%= javascript_include_tag 'jquery.hotkeys' %>
-    <%= javascript_include_tag 'jquery.validate' %>
-    <%= javascript_include_tag 'global' %>
     <%= stylesheet_link_tag 'jquery-ui-1.8.20.custom.css' %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
@@ -25,13 +20,13 @@
     <%= render :partial => 'layouts/help' %>
     <%= yield(:javascripts) %>
     <script type="text/javascript">
-      <%= hotkey_for_path_js('t', transactions_path) %>
-      <%= hotkey_for_path_js('shift+t', new_transaction_path) %>
-      <%= hotkey_for_path_js('n', new_transaction_path) %>
-      <%= hotkey_for_path_js('shift+a', new_account_path) %>
-      <%= hotkey_for_path_js('b', accounts_path(:stmt_type => 'bs')) %>
-      <%= hotkey_for_path_js('i', accounts_path(:stmt_type => 'is')) %>
-      <%= hotkey_for_path_js('e', accounts_expense_report_path) %>
+      <%= raw hotkey_for_path_js('t', tranxactions_path) %>
+      <%= raw hotkey_for_path_js('shift+t', new_tranxaction_path) %>
+      <%= raw hotkey_for_path_js('n', new_tranxaction_path) %>
+      <%= raw hotkey_for_path_js('shift+a', new_account_path) %>
+      <%= raw hotkey_for_path_js('b', accounts_path(:stmt_type => 'bs')) %>
+      <%= raw hotkey_for_path_js('i', accounts_path(:stmt_type => 'is')) %>
+      <%= raw hotkey_for_path_js('e', accounts_expense_report_path) %>
       $(document).bind('keyup', 'q', function(evt){ 
         $('#transaction_date').focus();
       });

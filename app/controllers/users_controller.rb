@@ -7,7 +7,8 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(params[:user])
+    #@user = User.new(params[:user])
+    @user = User.new(params.require(:user).permit(:email, :login, :password, :password_confirmation))
     if @user.save
       flash[:notice] = "Account registered!"
       redirect_back_or_default root_url
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
   
   def update
     @user = @current_user # makes our views "cleaner" and more consistent
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(params.require(:user).permit(:email, :login, :password, :password_confirmation))
       flash[:notice] = "Account updated!"
       redirect_to account_url
     else

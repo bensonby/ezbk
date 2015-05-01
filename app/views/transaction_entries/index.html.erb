@@ -15,7 +15,7 @@
 <% @transaction_entries.each do |transaction_entry| %>
   <tr>
     <td><%= transaction_entry.transaction.id %></td>
-    <td><%= transaction_entry.transaction.transaction_date %></td>
+    <td><%= transaction_entry.tranxaction.transaction_date %></td>
     <td><%= transaction_entry.account.id %></td>
     <td><%= transaction_entry.account.name %></td>
     <td><%= transaction_entry.debit_amount %></td>

@@ -7,9 +7,9 @@
     <th>Account</th>
     <th>Debit Amount</th>
   </tr>
-<% if transactions.each do |transaction| %>
+<% if tranxactions.each do |transaction| %>
   <tr class="transaction-info">
-    <td><div class="button"><%= link_to edit_icon, edit_transaction_path(transaction) %></div></td>
+    <td><div class="button"><%= link_to edit_icon, edit_tranxaction_path(transaction) %></div></td>
     <td><div class="button"><%= link_to destroy_icon, transaction, :confirm => 'Are you sure?', :method => :delete %></div></td>
     <td class="date"><%= transaction.transaction_date %></td>
     <td class="description"><%= transaction.description %></td>

@@ -1,19 +1,19 @@
 Fin::Application.routes.draw do
   root :to => 'accounts#index'
   get 'accounts/autocomplete_account_name'
-  match 'transaction_entries/autocomplete_account_name' => 'accounts#autocomplete_account_name'
-  get 'transactions/autocomplete_transaction_tostring'
-  post 'transactions/quick_create'
+  get 'transaction_entries/autocomplete_account_name' => 'accounts#autocomplete_account_name'
+  get 'tranxactions/autocomplete_transaction_tostring'
+  post 'tranxactions/quick_create'
 
   resource :user_session
-  match 'login' => "user_sessions#new", :as => 'login'
-  match 'logout' => "user_sessions#destroy", :as => 'logout'
+  match 'login' => "user_sessions#new", :as => 'login', via: [:get, :post]
+  match 'logout' => "user_sessions#destroy", :as => 'logout', via: [:get, :post]
   resources :users
   
-  match 'accounts/expense_report' => 'accounts#report'
+  get 'accounts/expense_report' => 'accounts#report'
   resources :accounts
   resources :transaction_entries
-  resources :transactions do
+  resources :tranxactions do
     resources :transaction_entries
   end
 

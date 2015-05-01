@@ -1,0 +1,8 @@
+<%= render "tranxactions/transaction_entries", :tranxactions => [@transaction] %>
+<div>
+<%= link_to 'Edit', edit_tranxaction_path(@transaction) %> |
+<%= link_to 'Back', tranxactions_path %>
+</div>
+<br />
+
+<%= render 'quick_create' %>

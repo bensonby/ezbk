@@ -1,15 +1,15 @@
 <div id="transaction-quick-create">
 <h3>Quick Create Transaction from Existing</h3>
   <ul id="form-validation-messages" style="display: none;"></ul>
-  <%= form_tag transactions_quick_create_path, :id => 'quick-create-form' do %>
+  <%= form_tag tranxactions_quick_create_path, :id => 'quick-create-form' do %>
     <span class="field">
       <%= label_tag 'transaction_date', 'Date:' %>
       <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab, :class => 'date required' %>
     </span>
     <span class="field">
-      <%= label_tag 'transaction_id', 'Transaction:' %>
-      <%= hidden_field_tag 'transaction_id', '', :class => 'required' %>
-      <%= autocomplete_field_tag 'keyword', '', transactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#transaction_id', :class => 'transaction-tostring' %>
+      <%= label_tag 'tranxaction_id', 'Transaction:' %>
+      <%= hidden_field_tag 'tranxaction_id', '', :class => 'required' %>
+      <%= autocomplete_field_tag 'keyword', '', tranxactions_autocomplete_transaction_tostring_path, :tabindex => autotab, :"data-id-element" => '#tranxaction_id', :class => 'transaction-tostring' %>
     </span>
     <span class="field">
       <%= check_box_tag 'edit', 'edit', false, :tabindex => autotab %>
@@ -29,7 +29,7 @@
     errorLabelContainer: "#form-validation-messages",
     wrapper: 'li',
     rules: {
-      transaction_id: {
+      tranxaction_id: {
         required: true,
         minlength: 1
       },
@@ -41,7 +41,7 @@
     },
     messages: {
       transaction_date: "Please enter a valid transaction date (YYYY-MM-DD)",
-      transaction_id:   "Please select an existing transaction"
+      tranxaction_id:   "Please select an existing transaction"
     }
   });
 </script>

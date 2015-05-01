@@ -23,12 +23,12 @@ class AccountsController < ApplicationController
 
   def report
     @page_name = "expense_report"
-    expense_transactions=Transaction.joins(:transaction_entries => :account).where("transaction_entries.account_id" => Account.of(current_user).find_by_name("Expenses").descendants.map{|a| a.id})
-    @summary = expense_transactions.select("accounts.id, accounts.name,year(transactions.transaction_date) as year,month(transactions.transaction_date) as month,sum(transaction_entries.debit_amount) as total").group("accounts.id, accounts.name, year, month").order("accounts.parent_id, accounts.name, year, month")
+    expense_transactions=Tranxaction.joins(:transaction_entries => :account).where("transaction_entries.account_id" => Account.of(current_user).find_by_name("Expenses").descendants.map{|a| a.id})
+    @summary = expense_transactions.select("accounts.id, accounts.name, extract(year from tranxactions.transaction_date) as year, extract(month from tranxactions.transaction_date) as month,sum(transaction_entries.debit_amount) as total").group("accounts.id, accounts.name, year, month").order("accounts.parent_id, accounts.name, year, month")
     @accounts = expense_transactions.select("accounts.id, accounts.name").group("accounts.id, accounts.name").order("accounts.name")
-    @periods = expense_transactions.select("year(transactions.transaction_date) as year, month(transactions.transaction_date) as month").group("year, month")
+    @periods = expense_transactions.select("extract(year from tranxactions.transaction_date) as year, extract(month from tranxactions.transaction_date) as month").group("year, month").order("year desc, month desc")
 
-    is_amounts_query = current_user_accounts.joins(:transaction_entries => :transaction).
+    is_amounts_query = current_user_accounts.joins(:transaction_entries => :tranxaction).
 #                       where("transactions.transaction_date" => ("2013-02-01 00:00:00")..("2013-02-28 23:59:59")).
                        select("accounts.id, accounts.name, sum(transaction_entries.debit_amount) as total_amount").group("accounts.id, accounts.name").
                        order("accounts.name")
@@ -46,8 +46,8 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    is_amounts_query = current_user_accounts.joins(:transaction_entries => :transaction).
-                       where("transactions.transaction_date" => (Time.now.beginning_of_month())..(Time.now.end_of_month())).
+    is_amounts_query = current_user_accounts.joins(:transaction_entries => :tranxaction).
+                       where("tranxactions.transaction_date" => (Time.now.beginning_of_month())..(Time.now.end_of_month())).
                        select("accounts.id, accounts.name, sum(transaction_entries.debit_amount) as total_amount").group("accounts.id, accounts.name").
                        order("accounts.name")
     @is_amounts = Hash[is_amounts_query.map { |p| [p.id, p] }]
@@ -63,7 +63,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1.json
   def show
     @account = current_user_accounts.find(params[:id])
-    @transactions = @account.transactions.paginate(:page => params[:page]).order("transaction_date DESC, id DESC")
+    @transactions = @account.tranxactions.paginate(:page => params[:page]).order("transaction_date DESC, id DESC")
 
     respond_to do |format|
       format.html # show.html.erb
@@ -121,7 +121,8 @@ class AccountsController < ApplicationController
   # POST /accounts
   # POST /accounts.json
   def create
-    @account = current_user.accounts.build(params[:account].except(:user_id))
+    #@account = current_user.accounts.build(params[:account].except(:user_id))
+    @account = current_user.accounts.build(params.require(:account).permit(:name, :parent_id, :opening_balance))
 
     respond_to do |format|
       if @account.save
@@ -140,7 +141,8 @@ class AccountsController < ApplicationController
     @account = current_user_accounts.find(params[:id])
 
     respond_to do |format|
-      if @account.update_attributes(params[:account])
+      #if @account.update_attributes(params[:account])
+      if @account.update_attributes(params.require(:account).permit(:name, :parent_id, :opening_balance))
         format.html { redirect_to accounts_path, :notice => 'Account was successfully updated.' }
         format.json { head :no_content }
       else

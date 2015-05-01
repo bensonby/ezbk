@@ -35,7 +35,7 @@
         <% end %>
         <tr>
           <td>
-            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, :tabindex => autotab, :id => "add-transaction-entry", :"container-tag" => "tr" %>
+            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, :tabindex => 9999, :id => "add-transaction-entry", :"container-tag" => "tr" %>
           </td>
         </tr>
       </tbody>
@@ -48,7 +48,7 @@
 <% content_for :javascripts do %>
 <script type="text/javascript">
 
-$('.input-debit-amount').live('change', function(event){
+$('.input-debit-amount').on('change', function(event){
   if($(this).val() != "") $(this).addClass("manual-input");
   else $(this).removeClass("manual-input");
   $(".input-debit-amount:not(.manual-input)").each(function(index, e){
@@ -74,7 +74,7 @@ $('.input-debit-amount').live('change', function(event){
     errorLabelContainer: "#form-validation-messages",
     wrapper: 'li',
     rules: {
-      transaction_id: {
+      tranxaction_id: {
         required: true,
         minlength: 1
       },
@@ -86,7 +86,7 @@ $('.input-debit-amount').live('change', function(event){
     },
     messages: {
       transaction_date: "Please enter a valid transaction date (YYYY-MM-DD)",
-      transaction_id:   "Please select an existing transaction"
+      tranxaction_id:   "Please select an existing transaction"
     }
   });
 
