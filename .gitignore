@@ -36,3 +36,5 @@ bower.json
 
 # Ignore swp files / backup
 *~
+/admin
+/.sass-cache
