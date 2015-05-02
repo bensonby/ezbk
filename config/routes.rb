@@ -1,4 +1,4 @@
-Fin::Application.routes.draw do
+Ezbk::Application.routes.draw do
   root :to => 'accounts#index'
   get 'accounts/autocomplete_account_name'
   get 'transaction_entries/autocomplete_account_name' => 'accounts#autocomplete_account_name'

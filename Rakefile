@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Fin::Application.load_tasks
+Ezbk::Application.load_tasks
