@@ -7,7 +7,7 @@ Ezbk::Application.routes.draw do
 
   resource :user_session
   match 'login' => "user_sessions#new", :as => 'login', via: [:get, :post]
-  match 'logout' => "user_sessions#destroy", :as => 'logout', via: [:get, :post]
+  match 'logout' => "user_sessions#destroy", :as => 'logout', via: [:get, :post, :delete]
   resources :users
   
   get 'accounts/expense_report' => 'accounts#report'
