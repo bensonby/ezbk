@@ -47,3 +47,4 @@ gem 'will_paginate', '~> 3.0.0'
 gem 'jquery-hotkeys-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-validation-rails'
+gem 'rails_12factor', group: :production
