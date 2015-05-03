@@ -8,8 +8,8 @@ class TranxactionsController < ApplicationController
 
   def autocomplete_transaction_tostring
     where_sql = params[:term].split.map do |term|
-                  "(tranxactions.description like '%#{term}%' or
-                    accounts.name like '%#{term}%' or
+                  "(tranxactions.description ilike '%#{term}%' or
+                    accounts.name ilike '%#{term}%' or
                     cast(transaction_entries.debit_amount as CHAR(11)) like '%#{term}%')"
                 end.join(" AND ")
     transactions = current_user_transactions.joins(:transaction_entries => :account).where(where_sql).limit(100).reduce(Hash.new) do |list, t|

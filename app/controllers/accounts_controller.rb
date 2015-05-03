@@ -8,7 +8,7 @@ class AccountsController < ApplicationController
   end
 
   def autocomplete_account_name
-    @return_list = current_user_accounts.where("name like '%" + params[:term] + "%'").map do |a|
+    @return_list = current_user_accounts.where("name ilike '%" + params[:term] + "%'").map do |a|
       {:id => a.id, :value => a.name}
     end
     render :json => @return_list
