@@ -34,6 +34,11 @@
       $(document).bind('keyup', 'esc', hide_help);
       $('#help_button').click(show_help);
       $('#close_help_button').click(hide_help);
+      $(document).ready(function(){
+        $('#tranxaction_transaction_date').focus();
+        $('#account_name').focus();
+        $('#user_session_login').focus();
+      });
     </script>
   </body>
 </html>

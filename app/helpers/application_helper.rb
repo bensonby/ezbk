@@ -42,6 +42,10 @@ module ApplicationHelper
 
   def hotkey_for_path_js(hotkey, path)
     "$(document).bind('keyup', '#{hotkey}', function(evt){
+       if($(evt.target).attr('type') == 'password') {
+         evt.stopPropagation();
+         return;
+       }
        window.location = '#{path}';
      });
     "
