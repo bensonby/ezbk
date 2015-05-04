@@ -11,7 +11,7 @@
 
 <table>
   <thead><tr>
-    <th></th><% @periods.each do |item| %><th><%=item.year %> <%=item.month%></th><% end %>
+    <th></th><% @periods.each do |item| %><th><%=item.year.to_i %> <%=item.month.to_i %></th><% end %>
   </tr></thead>
   <tbody>
     <% @accounts.each do |account| %>
