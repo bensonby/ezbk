@@ -117,7 +117,7 @@ class TranxactionsController < ApplicationController
     @transaction = Tranxaction.find(params[:id])
 
     respond_to do |format|
-      if @transaction.update_attributes(params.require(:tranxaction).permit(:transaction_date, :description, { transaction_entries_attributes: [:debit_amount, :tranxaction_id, :account_id]}))
+      if @transaction.update_attributes(params.require(:tranxaction).permit(:transaction_date, :description, { transaction_entries_attributes: [:debit_amount, :tranxaction_id, :account_id, :id, :_destroy]}))
         format.html { redirect_to @transaction, :notice => 'Transaction was successfully updated.' }
         format.json { head :no_content }
       else

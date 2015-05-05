@@ -7,9 +7,6 @@
     <%= f.text_field :debit_amount, :tabindex => autotab, :class => 'input-debit-amount' + (f.object.debit_amount.blank? ? '' : ' manual-input') %><br />
   </td>
   <td>
-    <%= f.check_box :_destroy %>
-  </td>
-  <td>
     <%= link_to_remove_fields "remove", f %>
   </td>
 </tr>
