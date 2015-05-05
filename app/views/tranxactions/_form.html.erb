@@ -41,7 +41,7 @@
     </table>
   </div>
   <div class="actions">
-    <%= f.submit :tabindex => autotab %>
+    <%= f.submit ( f.object.new_record? ? "Create" : "Update"), :tabindex => autotab %>
   </div>
 <% end %>
 <% content_for :javascripts do %>
