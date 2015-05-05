@@ -34,7 +34,7 @@
         <% end %>
         <tr>
           <td>
-            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, :tabindex => 9999, :id => "add-transaction-entry", :"container-tag" => "tr" %>
+            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, {:tabindex => 9999, :id => "add-transaction-entry"} %>
           </td>
         </tr>
       </tbody>
@@ -47,28 +47,32 @@
 <% content_for :javascripts do %>
 <script type="text/javascript">
 
-$('.input-debit-amount').on('change', function(event){
+$(document).on('change', '.input-debit-amount', function(event){
   if($(this).val() != "") $(this).addClass("manual-input");
   else $(this).removeClass("manual-input");
+  setRemainingAmount();
+});
+$(document).on('click', '.remove-transaction-entry', function(event){
+  setRemainingAmount();
+});
+function setRemainingAmount(){
   $(".input-debit-amount:not(.manual-input)").each(function(index, e){
     $(e).val("");
   });
 
   var total = 0.0;
-  $(".input-debit-amount.manual-input").each(function(i,e){ total+=parseFloat($(e).val()); });
+  $(".input-debit-amount.manual-input").filter(":visible").each(function(i,e){ total+=parseFloat($(e).val()); });
   if(total.toFixed(2) == "0.00") return ;
-  if($(".input-debit-amount:not(.manual-input)").length == 0){
+  if($(".input-debit-amount:not(.manual-input)").filter(":visible").length == 0){
     var add_transaction_entry_element = $('#add-transaction-entry');
     var scripts = add_transaction_entry_element.attr('onclick');
-    scripts = scripts.substr(0, scripts.length-13);
     scripts = scripts.replace(/add_fields\(this/, "add_fields($('#add-transaction-entry')");
     eval(scripts);
   }
-  $(".input-debit-amount:not(.manual-input):first").val(-total.toFixed(2));
-});
+  $(".input-debit-amount:not(.manual-input):visible:first").val(-total.toFixed(2));
+}
 
   $('#new_transaction').validate({
-/*    debug: true,*/
     ignore: [],
     errorLabelContainer: "#form-validation-messages",
     wrapper: 'li',
