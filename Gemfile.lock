@@ -164,6 +164,7 @@ DEPENDENCIES
   jquery-validation-rails
   json
   nifty-generators
+  nokogiri
   pg (~> 0.18)
   rails (= 4.2.1)
   rails-jquery-autocomplete

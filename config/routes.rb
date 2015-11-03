@@ -4,12 +4,13 @@ Ezbk::Application.routes.draw do
   get 'transaction_entries/autocomplete_account_name' => 'accounts#autocomplete_account_name'
   get 'tranxactions/autocomplete_transaction_tostring'
   post 'tranxactions/quick_create'
+  post 'tranxactions/preview_fare'
 
   resource :user_session
   match 'login' => "user_sessions#new", :as => 'login', via: [:get, :post]
   match 'logout' => "user_sessions#destroy", :as => 'logout', via: [:get, :post, :delete]
   resources :users
-  
+
   get 'accounts/expense_report' => 'accounts#report'
   resources :accounts
   resources :transaction_entries

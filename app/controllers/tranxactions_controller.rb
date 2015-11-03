@@ -1,9 +1,33 @@
+require 'nokogiri'
+require 'open-uri'
+
 class TranxactionsController < ApplicationController
   before_filter :require_user
   before_filter :set_page_name
 
   def set_page_name
     @page_name = "transactions"
+  end
+
+  def preview_fare
+    ret = ""
+    kmb_route_no = params[:kmb_route_no]
+    kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no ))
+    unwanted_nodes = [
+      'head',
+      '.detailContainer td:nth-child(3)',
+      '.detailContainer td:first-child',
+      '.detailContainer th:nth-child(3)',
+      '.detailContainer th:first-child',
+    ]
+    kmb_doc.search(unwanted_nodes.join(", ")).each do |src|
+      src.remove
+    end
+    kmb_doc.xpath('//@src').remove  # remove dead img src
+    kmb_doc.css('.navTable, .resultContainer h4, .detailContainer').each do |el|
+      ret = ret + el.to_s
+    end
+    render html: ret.html_safe
   end
 
   def autocomplete_transaction_tostring

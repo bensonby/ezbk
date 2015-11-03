@@ -29,7 +29,7 @@ gem 'jquery-rails'
 gem 'bcrypt-ruby', '~> 3.0.0'
 
 group :production do
-    gem 'thin'  
+    gem 'thin'
 end
 
 # To use Jbuilder templates for JSON
@@ -53,3 +53,4 @@ gem 'jquery-hotkeys-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-validation-rails'
 gem 'rails_12factor', group: :production
+gem 'nokogiri'

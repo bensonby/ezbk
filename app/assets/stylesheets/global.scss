@@ -27,11 +27,11 @@ div {
 &.info, &.notice, &.flash { border-color: #BCE8F1; background-color: #D9EDF7; color: #3A87AD; }
 }
 div.button {
-  border-color: #AAA; 
+  border-color: #AAA;
   box-shadow: 0 0 3px #AAA;
   outline: 0 none;
   background: -moz-linear-gradient(center top, #FFFFFF, #EBEBEB) repeat scroll 0 0 #F3F3F3;
-  padding: 3px; 
+  padding: 3px;
 
   background: rgb(228,228,228); /* Old browsers */
   background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
@@ -158,4 +158,19 @@ div#close_help_button {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   background-image: none;
+}
+
+#hint-details {
+  background-color: #eee;
+  padding: 20px;
+  border-radius: 10px;
+  table, tr, td, th {
+    border: 1px solid #666;
+  }
+}
+
+#hint-container {
+  background-color: yellow;
+  padding: 5px;
+  border-radius: 5px;
 }

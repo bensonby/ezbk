@@ -18,6 +18,10 @@
   <div class="field">
     <%= f.label :description %><br />
     <%= f.text_field :description, :tabindex => autotab %>
+    <span id='hint-container' style='display: none;'>
+      <span id='hint'></span>
+      <a href='#' onclick='toggleHintDetails()'>Details</a>
+    </span>
   </div>
   <div class="field">
     <table class="center">
@@ -44,6 +48,9 @@
     <%= f.submit ( f.object.new_record? ? "Create" : "Update"), :tabindex => autotab %>
   </div>
 <% end %>
+<div id="hint-details">
+</div>
+
 <% content_for :javascripts do %>
 <script type="text/javascript">
 
@@ -93,6 +100,63 @@ function setRemainingAmount(){
     }
   });
 
+$(document).on('change', '#tranxaction_description', function(event){
+  hideHintDetails();
+  hideHint();
+  var text = $(this).val();
+  if(text.trim() == "") return;
+  if(text.substr(0, 3) == "KMB") {
+    if (text.length < 4 || text.substr(3, 1) != ' ') return;
+    var next_space_pos = text.indexOf(" ", 4);
+    var route_no = text.substr(4);
+    var from = "";
+    var to = "";
+    if (next_space_pos != -1) {
+      route_no = text.substr(4, next_space_pos-4);
+      var next_hyphen_pos = text.indexOf(" - ", next_space_pos);
+      if (next_hyphen_pos != -1) {
+        from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1);
+        to = text.substr(next_hyphen_pos + 3);
+      }
+    }
+    $('#hint-details').load('/tranxactions/preview_fare', {
+      'kmb_route_no': route_no,
+      'from': from,
+      'to': to
+    }, function() {
+      showHint('');
+      if (from != '' && to != '') {
+        $('.detailTable').each(function(index) {
+          var fromResult = $(this).find('td:contains("' + from.toUpperCase() + '")');
+          if (fromResult.length == 0) return;
+          var toResult = $(this).find('td:contains("' + to.toUpperCase() + '")');
+          if (toResult.length == 0) return;
+          var fromNode = $(fromResult[0]).closest('tr');
+          var toNode = $(toResult[toResult.length-1]).closest('tr');
+          if (fromNode.nextAll().filter(toNode).length !== 0) {
+            fromNode.css('background-color', 'yellow');
+            toNode.css('background-color', 'yellow');
+            showHint(fromNode.find('td:nth-child(2)').text());
+          }
+        })
+      }
+    });
+  }
+});
+
+function toggleHintDetails() {
+  $('#hint-details').toggle();
+}
+function hideHintDetails() {
+  $('#hint-details').hide();
+}
+function showHint(hint) {
+  $('#hint').text(hint);
+  $('#hint-container').show();
+}
+function hideHint() {
+  $('#hint-container').hide();
+}
 
 </script>
 <% end %>
