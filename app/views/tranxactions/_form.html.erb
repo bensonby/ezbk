@@ -104,9 +104,11 @@ $(document).on('change', '#tranxaction_description', function(event){
   hideHintDetails();
   hideHint();
   var text = $(this).val();
-  if(text.trim() == "") return;
-  if(text.substr(0, 3) == "KMB") {
+  if (text.trim() == "") return;
+  if (text.substr(0, 3) === "KMB") {
     previewFareKmb(text);
+  } else if (text.substr(0, 3) === "MTR") {
+    previewFareMtr(text);
   }
 });
 
@@ -122,6 +124,29 @@ function showHint(hint) {
 }
 function hideHint() {
   $('#hint-container').hide();
+}
+
+function previewFareMtr(text) {
+  if (text.length < 4 || text.substr(3, 1) != ' ') return;
+  var hyphen_pos = text.indexOf(" - ");
+  if (hyphen_pos === -1) return;
+  var end_pos = text.indexOf(" (", hyphen_pos);
+  if (end_pos === -1) end_pos = text.length;
+  var from = text.substr(4, hyphen_pos - 4);
+  var to = text.substr(hyphen_pos + 3, end_pos - hyphen_pos - 3);
+
+  $('#hint-details').load('/tranxactions/preview_fare_mtr', {
+    'from': from,
+    'to': to
+  }, function(responseText) {
+    if (responseText.trim() == '') {
+      hideHint();
+      hideHintDetails();
+      return;
+    }
+    var octopus_fare = $('td:contains("Adult")').next().text();
+    showHint("$" + octopus_fare);
+  });
 }
 
 function previewFareKmb(text) {

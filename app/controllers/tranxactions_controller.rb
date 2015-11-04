@@ -12,7 +12,7 @@ class TranxactionsController < ApplicationController
   def preview_fare_kmb
     ret = ""
     kmb_route_no = params[:kmb_route_no]
-    kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no ))
+    kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no))
     unwanted_nodes = [
       'head',
       '.detailContainer td:nth-child(3)',
@@ -25,6 +25,33 @@ class TranxactionsController < ApplicationController
     end
     kmb_doc.xpath('//@src').remove  # remove dead img src
     kmb_doc.css('.navTable, .resultContainer h4, .detailContainer').each do |el|
+      ret = ret + el.to_s
+    end
+    render html: ret.html_safe
+  end
+
+  def preview_fare_mtr
+    from = params[:from]
+    to = params[:to]
+    from_id = get_mtr_station_id(from)
+    to_id = get_mtr_station_id(to)
+    if from_id == -1 or to_id == -1
+      render ''
+      return
+    end
+    url = 'http://www.mtr.com.hk/en/customer/jp/index.php?sid=' + from_id.to_s + '&eid=' + to_id.to_s
+    mtr_doc = Nokogiri::HTML(open(url))
+    unwanted_nodes = [
+      'head',
+      'script',
+      'img'
+    ]
+    mtr_doc.search(unwanted_nodes.join(", ")).each do |src|
+      src.remove
+    end
+
+    ret = '<h3>' + from.strip + ' - ' + to.strip + '</h3>'
+    mtr_doc.css('div.mtrInfoBox').each do |el|
       ret = ret + el.to_s
     end
     render html: ret.html_safe
@@ -167,5 +194,99 @@ class TranxactionsController < ApplicationController
 
   def current_user_transactions
     Tranxaction.of_user(current_user)
+  end
+
+  def get_mtr_station_id(station_name)
+    mtr_codes = {
+      "Admiralty" => 2,
+      "Airport" => 47,
+      "AsiaWorld-Expo" => 56,
+      "Austin" => 111,
+      "Causeway Bay" => 28,
+      "Central" => 1,
+      "Chai Wan" => 37,
+      "Che Kung Temple" => 96,
+      "Cheung Sha Wan" => 18,
+      "Choi Hung" => 12,
+      "City One" => 98,
+      "Diamond Hill" => 11,
+      "Disneyland Resort" => 55,
+      "East Tsim Sha Tsui" => 80,
+      "Fanling" => 74,
+      "Fo Tan" => 69,
+      "Fortress Hill" => 30,
+      "Hang Hau" => 51,
+      "Heng Fa Chuen" => 36,
+      "Heng On" => 101,
+      "HKU" => 82,
+      "Hong Kong" => 39, # or 44
+      "Hung Hom" => 64,
+      "Jordan" => 4,
+      "Kam Sheung Road" => 115,
+      "Kennedy Town" => 83,
+      "Kowloon Bay" => 13,
+      "Kowloon Tong" => 8,
+      "Kowloon" => 40, # or 45
+      "Kwai Fong" => 22,
+      "Kwai Hing" => 23,
+      "Kwun Tong" => 15,
+      "Lai Chi Kok" => 19,
+      "Lai King" => 21,
+      "Lam Tin" => 38,
+      "Lo Wu" => 76,
+      "LOHAS Park" => 57,
+      "Lok Fu" => 9,
+      "Lok Ma Chau" => 78,
+      "Long Ping" => 117,
+      "Ma On Shan" => 102,
+      "Mei Foo" => 20,
+      "Mong Kok East" => 65,
+      "Mong Kok" => 6,
+      "Nam Cheong" => 53,
+      "Ngau Tau Kok" => 14,
+      "North Point" => 31,
+      "Olympic" => 41,
+      "Po Lam" => 52,
+      "Prince Edward" => 16,
+      "Quarry Bay" => 32,
+      "Racecourse" => 70,
+      "Sai Wan Ho" => 34,
+      "Sai Ying Pun" => 81,
+      "Sha Tin Wai" => 97,
+      "Sha Tin" => 68,
+      "Sham Shui Po" => 17,
+      "Shau Kei Wan" => 35,
+      "Shek Kip Mei" => 7,
+      "Shek Mun" => 99,
+      "Sheung Shui" => 75,
+      "Sheung Wan" => 26,
+      "Siu Hong" => 119,
+      "Sunny Bay" => 54,
+      "Tai Koo" => 33,
+      "Tai Po Market" => 72,
+      "Tai Shui Hang" => 100,
+      "Tai Wai" => 67,
+      "Tai Wo Hau" => 24,
+      "Tai Wo" => 73,
+      "Tin Hau" => 29,
+      "Tin Shui Wai" => 118,
+      "Tiu Keng Leng" => 49,
+      "Tseung Kwan O" => 50,
+      "Tsim Sha Tsui" => 3,
+      "Tsing Yi" => 42, # or 46
+      "Tsuen Wan West" => 114,
+      "Tsuen Wan" => 25,
+      "Tuen Mun" => 120,
+      "Tung Chung" => 43,
+      "University" => 71,
+      "Wan Chai" => 27,
+      "Wong Tai Sin" => 10,
+      "Wu Kai Sha" => 103,
+      "Yau Ma Tei" => 5,
+      "Yau Tong" => 48,
+      "Yuen Long" => 116
+    }
+    code = mtr_codes[station_name]
+    return code.nil? ? -1 : code
   end
 end

@@ -5,6 +5,7 @@ Ezbk::Application.routes.draw do
   get 'tranxactions/autocomplete_transaction_tostring'
   post 'tranxactions/quick_create'
   post 'tranxactions/preview_fare_kmb'
+  post 'tranxactions/preview_fare_mtr'
 
   resource :user_session
   match 'login' => "user_sessions#new", :as => 'login', via: [:get, :post]
