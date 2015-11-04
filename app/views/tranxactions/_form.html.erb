@@ -119,7 +119,7 @@ $(document).on('change', '#tranxaction_description', function(event){
         to = text.substr(next_hyphen_pos + 3);
       }
     }
-    $('#hint-details').load('/tranxactions/preview_fare', {
+    $('#hint-details').load('/tranxactions/preview_fare_kmb', {
       'kmb_route_no': route_no
     }, function(responseText) {
       if (responseText.trim() == '') {

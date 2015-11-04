@@ -9,7 +9,7 @@ class TranxactionsController < ApplicationController
     @page_name = "transactions"
   end
 
-  def preview_fare
+  def preview_fare_kmb
     ret = ""
     kmb_route_no = params[:kmb_route_no]
     kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no ))
