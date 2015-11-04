@@ -106,44 +106,7 @@ $(document).on('change', '#tranxaction_description', function(event){
   var text = $(this).val();
   if(text.trim() == "") return;
   if(text.substr(0, 3) == "KMB") {
-    if (text.length < 4 || text.substr(3, 1) != ' ') return;
-    var next_space_pos = text.indexOf(" ", 4);
-    var route_no = text.substr(4);
-    var from = "";
-    var to = "";
-    if (next_space_pos != -1) {
-      route_no = text.substr(4, next_space_pos-4);
-      var next_hyphen_pos = text.indexOf(" - ", next_space_pos);
-      if (next_hyphen_pos != -1) {
-        from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1);
-        to = text.substr(next_hyphen_pos + 3);
-      }
-    }
-    $('#hint-details').load('/tranxactions/preview_fare_kmb', {
-      'kmb_route_no': route_no
-    }, function(responseText) {
-      if (responseText.trim() == '') {
-        hideHint();
-        hideHintDetails();
-        return;
-      }
-      showHint('');
-      if (from != '' && to != '') {
-        $('.detailTable').each(function(index) {
-          var fromResult = $(this).find('td:contains("' + from.toUpperCase() + '")');
-          if (fromResult.length == 0) return;
-          var toResult = $(this).find('td:contains("' + to.toUpperCase() + '")');
-          if (toResult.length == 0) return;
-          var fromNode = $(fromResult[0]).closest('tr');
-          var toNode = $(toResult[toResult.length-1]).closest('tr');
-          if (fromNode.nextAll().filter(toNode).length !== 0) {
-            fromNode.css('background-color', 'yellow');
-            toNode.css('background-color', 'yellow');
-            showHint(fromNode.find('td:nth-child(2)').text());
-          }
-        })
-      }
-    });
+    previewFareKmb(text);
   }
 });
 
@@ -161,5 +124,45 @@ function hideHint() {
   $('#hint-container').hide();
 }
 
+function previewFareKmb(text) {
+  if (text.length < 4 || text.substr(3, 1) != ' ') return;
+  var next_space_pos = text.indexOf(" ", 4);
+  var route_no = text.substr(4);
+  var from = "";
+  var to = "";
+  if (next_space_pos != -1) {
+    route_no = text.substr(4, next_space_pos-4);
+    var next_hyphen_pos = text.indexOf(" - ", next_space_pos);
+    if (next_hyphen_pos != -1) {
+      from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1);
+      to = text.substr(next_hyphen_pos + 3);
+    }
+  }
+  $('#hint-details').load('/tranxactions/preview_fare_kmb', {
+    'kmb_route_no': route_no
+  }, function(responseText) {
+    if (responseText.trim() == '') {
+      hideHint();
+      hideHintDetails();
+      return;
+    }
+    showHint('');
+    if (from != '' && to != '') {
+      $('.detailTable').each(function(index) {
+        var fromResult = $(this).find('td:contains("' + from.toUpperCase() + '")');
+        if (fromResult.length == 0) return;
+        var toResult = $(this).find('td:contains("' + to.toUpperCase() + '")');
+        if (toResult.length == 0) return;
+        var fromNode = $(fromResult[0]).closest('tr');
+        var toNode = $(toResult[toResult.length-1]).closest('tr');
+        if (fromNode.nextAll().filter(toNode).length !== 0) {
+          fromNode.css('background-color', 'yellow');
+          toNode.css('background-color', 'yellow');
+          showHint(fromNode.find('td:nth-child(2)').text());
+        }
+      })
+    }
+  });
+}
 </script>
 <% end %>
