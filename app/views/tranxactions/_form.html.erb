@@ -120,10 +120,13 @@ $(document).on('change', '#tranxaction_description', function(event){
       }
     }
     $('#hint-details').load('/tranxactions/preview_fare', {
-      'kmb_route_no': route_no,
-      'from': from,
-      'to': to
-    }, function() {
+      'kmb_route_no': route_no
+    }, function(responseText) {
+      if (responseText.trim() == '') {
+        hideHint();
+        hideHintDetails();
+        return;
+      }
       showHint('');
       if (from != '' && to != '') {
         $('.detailTable').each(function(index) {
