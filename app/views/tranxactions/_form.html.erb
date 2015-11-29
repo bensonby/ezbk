@@ -11,19 +11,25 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :transaction_date %><br />
-    <%= f.text_field :transaction_date, :tabindex => autotab, :class => 'date' %>
+
+
+  <div id='transaction-meta-data'>
+    <div class="field">
+      <%= f.label :transaction_date %><br />
+      <%= f.text_field :transaction_date, :tabindex => autotab, :class => 'date' %>
+    </div>
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description, :tabindex => autotab %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_field :description, :tabindex => autotab %>
-    <span id='hint-container' style='display: none;'>
-      <span id='hint'></span>
-      <a href='#' onclick='toggleHintDetails()'>Details</a>
-    </span>
-  </div>
-  <div class="field">
+  <table id='hint-container' style='display: none;'>
+    <tr><td>Fare:</td><td id="hint-details-fare">N/A</td></tr>
+    <tr><td>From:</td><td id="hint-details-from">N/A</td></tr>
+    <tr><td>To:</td><td id="hint-details-to">N/A</td></tr>
+  </table>
+
+  <div class="field clear">
     <table class="center">
       <thead>
       <tr>
@@ -48,7 +54,9 @@
     <%= f.submit ( f.object.new_record? ? "Create" : "Update"), :tabindex => autotab %>
   </div>
 <% end %>
-<div id="hint-details">
+<div id="hint-details-panel" style="display: none;">
+  <p style="display: none;">Route: <span id="loading-route">N/A</span></p>
+  <div id="hint-details"></div>
 </div>
 
 <% content_for :javascripts do %>
@@ -100,94 +108,154 @@ function setRemainingAmount(){
     }
   });
 
-$(document).on('change', '#tranxaction_description', function(event){
-  hideHintDetails();
-  hideHint();
+$(document).on('keyup', '#tranxaction_description', function(event) {
   var text = $(this).val();
-  if (text.trim() == "") return;
-  if (text.substr(0, 3) === "KMB") {
-    previewFareKmb(text);
-  } else if (text.substr(0, 3) === "MTR") {
-    previewFareMtr(text);
+  if (text.substr(0, 4) === "KMB ") {
+    var next_space_pos = text.indexOf(" ", 4);
+    if (next_space_pos === -1) return;
+    route_no = text.substr(4, next_space_pos-4);
+    loading_route = $('#loading-route').text();
+    if (route_no != loading_route) {
+      loadKmbRouteDetails(route_no);
+    }
+    previewFareKmb($(this).val());
+    return;
   }
+  if (text.substr(0, 4) === "MTR ") {
+    return;
+  }
+  hideHintPanel();
+  hideHintDetailsPanel();
+});
+$(document).on('change', '#tranxaction_description', function(event) {
+  var text = $(this).val();
+  if (text.substr(0, 4) !== "MTR ") return;
+  var next_hyphen_pos = text.indexOf("-");
+  if (next_hyphen_pos === -1) return;
+  var from = text.substr(4, next_hyphen_pos-4).trim();
+  next_bracket_pos = text.indexOf("(");
+  var to = text.substr(
+    next_hyphen_pos+1,
+    next_bracket_pos === -1 ? text.length - next_hyphen_pos - 1 : next_bracket_pos - next_hyphen_pos - 1
+  ).trim();
+  if (!from || !to) return;
+  previewFareMtr(from, to);
 });
 
-function toggleHintDetails() {
-  $('#hint-details').toggle();
+function showHintDetailsPanel() {
+  $('#hint-details-panel').show();
 }
-function hideHintDetails() {
-  $('#hint-details').hide();
+function hideHintDetailsPanel() {
+  $('#hint-details-panel').hide();
 }
-function showHint(hint) {
-  $('#hint').text(hint);
+function showHintPanel(hint) {
   $('#hint-container').show();
 }
-function hideHint() {
+function hideHintPanel() {
   $('#hint-container').hide();
 }
 
-function previewFareMtr(text) {
-  if (text.length < 4 || text.substr(3, 1) != ' ') return;
-  var hyphen_pos = text.indexOf(" - ");
-  if (hyphen_pos === -1) return;
-  var end_pos = text.indexOf(" (", hyphen_pos);
-  if (end_pos === -1) end_pos = text.length;
-  var from = text.substr(4, hyphen_pos - 4);
-  var to = text.substr(hyphen_pos + 3, end_pos - hyphen_pos - 3);
+function previewFareMtr(from, to) {
+  showHintPanel();
+  setFrom(from);
+  setTo(to);
+  setFare("loading...");
 
   $('#hint-details').load('/tranxactions/preview_fare_mtr', {
     'from': from,
     'to': to
   }, function(responseText) {
     if (responseText.trim() == '') {
-      hideHint();
-      hideHintDetails();
+      setFare('Error');
+      setFrom(from);
+      setTo(to);
+      hideHintDetailsPanel();
       return;
     }
     var octopus_fare = $('td:contains("Adult")').next().text();
-    showHint("$" + octopus_fare);
+    setFare("$" + octopus_fare);
+    setFrom(from);
+    setTo(to);
+    showHintDetailsPanel();
   });
 }
 
-function previewFareKmb(text) {
-  if (text.length < 4 || text.substr(3, 1) != ' ') return;
-  var next_space_pos = text.indexOf(" ", 4);
-  var route_no = text.substr(4);
-  var from = "";
-  var to = "";
-  if (next_space_pos != -1) {
-    route_no = text.substr(4, next_space_pos-4);
-    var next_hyphen_pos = text.indexOf(" - ", next_space_pos);
-    if (next_hyphen_pos != -1) {
-      from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1);
-      to = text.substr(next_hyphen_pos + 3);
-    }
-  }
+function loadKmbRouteDetails(route_no) {
+  $('#loading-route').text(route_no);
+  $('#hint-details').text('');
   $('#hint-details').load('/tranxactions/preview_fare_kmb', {
     'kmb_route_no': route_no
   }, function(responseText) {
     if (responseText.trim() == '') {
-      hideHint();
-      hideHintDetails();
+      hideHintPanel();
+      hideHintDetailsPanel();
       return;
     }
-    showHint('');
-    if (from != '' && to != '') {
-      $('.detailTable').each(function(index) {
-        var fromResult = $(this).find('td:contains("' + from.toUpperCase() + '")');
-        if (fromResult.length == 0) return;
-        var toResult = $(this).find('td:contains("' + to.toUpperCase() + '")');
-        if (toResult.length == 0) return;
-        var fromNode = $(fromResult[0]).closest('tr');
-        var toNode = $(toResult[toResult.length-1]).closest('tr');
-        if (fromNode.nextAll().filter(toNode).length !== 0) {
-          fromNode.css('background-color', 'yellow');
-          toNode.css('background-color', 'yellow');
-          showHint(fromNode.find('td:nth-child(2)').text());
-        }
-      })
-    }
+    showHintDetailsPanel();
+    previewFareKmb($('#tranxaction_description').val());
   });
+}
+
+function setFare(fare) {
+  $('#hint-details-fare').text(fare);
+}
+function setFrom(from) {
+  $('#hint-details-from').text(from);
+}
+function setTo(to) {
+  $('#hint-details-to').text(to);
+}
+
+function showEmptyHint() {
+  setFare('N/A');
+  setFrom('N/A');
+  setTo('N/A');
+}
+
+function previewFareKmb(text) {
+  showHintPanel();
+  showEmptyHint();
+  if (text.substr(0, 4) != 'KMB ') return;
+  var next_space_pos = text.indexOf(" ", 4);
+  if (next_space_pos === -1) return;
+  route_no = text.substr(4, next_space_pos-4);
+  var next_hyphen_pos = text.indexOf("-", next_space_pos);
+  if (next_hyphen_pos !== -1) {
+    from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1).trim();
+    to = text.substr(next_hyphen_pos + 1).trim();
+  } else {
+    from = text.substr(next_space_pos + 1).trim();
+    to = '';
+  }
+
+  $('.detailTable').find('td').css('background-color', 'transparent');
+
+  $('.detailTable').each(function(index) {
+    var fromResult = from ? $(this).find('td:contains("' + from.toUpperCase() + '")') : [];
+    var toResult = to ? $(this).find('td:contains("' + to.toUpperCase() + '")') : [];
+
+    if (fromResult.length > 0) {
+      setFrom($(fromResult[0]).text());
+      fromResult.css('background-color', 'yellow');
+    }
+    if (toResult.length > 0) {
+      setTo($(toResult[toResult.length - 1]).text());
+      toResult.css('background-color', 'cyan');
+    }
+
+    if (fromResult.length > 0 && toResult.length > 0) {
+      fromResult.filter(toResult).css('background-color', 'lime');
+      var fromNode = $(fromResult[0]).closest('tr');
+      var toNode = $(toResult[toResult.length-1]).closest('tr');
+      if (fromNode.nextAll().filter(toNode).length !== 0) {
+        var fare = fromNode.find('td:nth-child(2)').text();
+        setFare(fare);
+        setFrom($(fromResult[0]).text());
+        setTo($(toResult[toResult.length - 1]).text());
+        return false;
+      }
+    }
+  })
 }
 </script>
 <% end %>

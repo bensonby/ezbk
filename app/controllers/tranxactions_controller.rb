@@ -36,7 +36,7 @@ class TranxactionsController < ApplicationController
     from_id = get_mtr_station_id(from)
     to_id = get_mtr_station_id(to)
     if from_id == -1 or to_id == -1
-      render ''
+      render html: ''
       return
     end
     url = 'http://www.mtr.com.hk/en/customer/jp/index.php?sid=' + from_id.to_s + '&eid=' + to_id.to_s

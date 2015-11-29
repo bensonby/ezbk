@@ -169,8 +169,16 @@ div#close_help_button {
   }
 }
 
-#hint-container {
-  background-color: yellow;
+table#hint-container {
+  background-color: #E3E3E3;
   padding: 5px;
-  border-radius: 5px;
+  float: left;
+  margin-left: 20px;
+  td {
+    padding: 3px;
+  }
+}
+
+#transaction-meta-data {
+  float: left;
 }
