@@ -10,9 +10,10 @@ class TranxactionsController < ApplicationController
   end
 
   def preview_fare_kmb
-    ret = ""
     kmb_route_no = params[:kmb_route_no]
-    kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no))
+    url = 'http://m.kmb.hk/en/result.html?busno=' + kmb_route_no
+    ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
+    kmb_doc = Nokogiri::HTML(open(url))
     unwanted_nodes = [
       'head',
       '.detailContainer td:first-child',
@@ -56,7 +57,8 @@ class TranxactionsController < ApplicationController
       src.remove
     end
 
-    ret = '<h3>' + from.strip + ' - ' + to.strip + '</h3>'
+    ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
+    ret = ret + '<h3>' + from.strip + ' - ' + to.strip + '</h3>'
     mtr_doc.css('div.mtrInfoBox').each do |el|
       ret = ret + el.to_s
     end
