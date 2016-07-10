@@ -40,7 +40,15 @@ class TranxactionsController < ApplicationController
       return
     end
     url = 'http://www.mtr.com.hk/en/customer/jp/index.php?sid=' + from_id.to_s + '&eid=' + to_id.to_s
-    mtr_doc = Nokogiri::HTML(open(url))
+
+    # first request gets 302, need to set cookie and re-request
+    uri = URI(url)
+    res = Net::HTTP.get_response(uri)
+    req = Net::HTTP::Get.new(uri)
+    req['Cookie'] = res['Set-Cookie']
+    res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
+
+    mtr_doc = Nokogiri::HTML(res.body)
     unwanted_nodes = [
       'head',
       'script',
