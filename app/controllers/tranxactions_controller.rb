@@ -15,9 +15,7 @@ class TranxactionsController < ApplicationController
     kmb_doc = Nokogiri::HTML(open('http://m.kmb.hk/en/result.html?busno=' + kmb_route_no))
     unwanted_nodes = [
       'head',
-      '.detailContainer td:nth-child(3)',
       '.detailContainer td:first-child',
-      '.detailContainer th:nth-child(3)',
       '.detailContainer th:first-child',
     ]
     kmb_doc.search(unwanted_nodes.join(", ")).each do |src|
