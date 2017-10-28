@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres
+
+  ezbk:
+    build: ./
+    links:
+      - postgres
