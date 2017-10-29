@@ -13,3 +13,14 @@ Easy Bookkeeping with accounting principles
 ## Demo
 
 [On Heroku](http://ezbk.herokuapp.com)
+
+## Setup
+
+Requires:
+
+- Ruby 2.2.8
+
+```bash
+rake db:create
+rake db:migrate
+```
