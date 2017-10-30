@@ -11,22 +11,16 @@
     li {
       display: inline;
       a {
-/*        float: left; */
-/*        text-decoration: none;*/
         color: #666;
-        padding: 8px;
+        padding-right: 8px;
       }
       a:visited {
         color: #666;
       }
       a.external {
         font-style: italic;
-        padding-right:12px;/* !important;*/
+        padding-right: 12px; /* !important;*/
         background: transparent url(external_link.png) center right no-repeat;
-      }
-      a:hover {
-        color: white;
-        background-color: #666;
       }
     }
   }

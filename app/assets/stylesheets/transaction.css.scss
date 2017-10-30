@@ -3,6 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 table.transaction-list {
+  td.top {
+    vertical-align: top;
+  }
   td.date        { width:  90px; }
   td.description { width: 270px; }
   td.account     { width: 210px; }

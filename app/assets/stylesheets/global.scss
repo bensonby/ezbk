@@ -26,6 +26,16 @@ input.date {
 input.input-debit-amount {
   width: 100px;
 }
+
+@media (max-width: 799px) {
+  input[type=text], input[type=password] {
+    height: 30px;
+  }
+  input[type=submit] {
+    height: 30px;
+    min-width: 200px;
+  }
+}
 div {
 &.flash, &.error, &.alert, &.notice, &.success, &.info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
 &.success {background:#e6efc2;color:#264409;border-color:#c6d880;}
@@ -78,6 +88,12 @@ div#transaction-quick-create {
   padding: 10px;
   width: 100%;
 
+  @media (max-width: 799px) {
+    input[type=text] {
+      width: 100%;
+    }
+  }
+
   input.transaction-tostring {
     @media (min-width: 800px) {
       width: 300px;
@@ -89,6 +105,11 @@ div#transaction-quick-create {
   @media (max-width: 799px) {
     span.field {
       display: block;
+      margin-bottom: 3px;
+
+      label:first-child {
+        display: block;
+      }
     }
   }
 }
@@ -172,6 +193,10 @@ div#close_help_button {
     line-height: 18px;
     color: #555555;
     white-space: nowrap;
+  }
+
+  li.ui-menu-item {
+    padding: 5px; /* !important;*/
   }
 }
 .ui-widget-content .ui-state-focus {

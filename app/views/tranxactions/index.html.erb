@@ -1,5 +1,5 @@
 <%= render 'quick_create' %>
 <h1>Listing transactions</h1>
-<h3><%= link_to '>> Create New Transaction', new_tranxaction_path %></h3>
+<h3><%= link_to 'Create Transaction', new_tranxaction_path %></h3>
 <%= will_paginate @transactions %>
 <%= render "tranxactions/transaction_entries", :tranxactions => @transactions %>
