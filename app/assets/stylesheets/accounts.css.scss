@@ -7,9 +7,6 @@ tr.current-account td {
   background-color: #FFFFBF;
 }
 
-td.account-name {
-  padding-right: 40px;
-}
 table#account-info {
   border-collapse: collapse;
   thead th {
@@ -25,17 +22,21 @@ table#account-list {
   @for $i from 0 through 4 {
     tr.account-level-#{$i} {
       td {
-/*        background-color: lighten($base-bg-color, $i*10%);*/
-/*        padding-top: (4-$i)*3px;
-        padding-bottom: (4-$i)*3px;
-*/
         &.account-name {
           padding-left: 5px+20px*$i;
         }
-        &.account-currency {
-/*          padding-right: 5px+80px*$i;*/
-        }
       } 
+    }
+  }
+}
+
+@media (max-width: 799px) {
+  table#account-list {
+    td:first-child,
+    td:nth-child(2),
+    th:first-child,
+    th:nth-child(2) {
+      display: none;
     }
   }
 }
