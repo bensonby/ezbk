@@ -8,3 +8,8 @@ services:
     build: ./
     links:
       - postgres
+    command: bundle exec thin -p 3000 start
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
