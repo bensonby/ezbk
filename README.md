@@ -24,3 +24,12 @@ Requires:
 rake db:create
 rake db:migrate
 ```
+
+## Deployment through docker
+
+```bash
+docker-compose stop ezbk
+docker-compose rm ezbk
+docker-compose build --no-cache ezbk
+docker-compose up -d ezbk
+```
