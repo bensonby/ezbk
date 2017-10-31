@@ -11,8 +11,6 @@ default: &default
 development:
   <<: *default
   database: "ezbk_development"
-  username: root
-  password: 
 
 test:
   <<: *default

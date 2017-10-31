@@ -16,6 +16,8 @@ Easy Bookkeeping with accounting principles
 
 ## Setup
 
+IMPORTANT: For development mode, make sure to comment out commands in `Dockerfile` accordingly before building docker image.
+
 Requires:
 
 - Ruby 2.2.8

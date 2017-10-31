@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20150501105737) do
   create_table "accounts", force: :cascade do |t|
     t.string   "name"
     t.integer  "parent_id"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.decimal  "opening_balance", precision: 10, scale: 2
     t.decimal  "current_balance", precision: 10, scale: 2
     t.integer  "user_id"
@@ -30,21 +30,21 @@ ActiveRecord::Schema.define(version: 20150501105737) do
     t.integer  "tranxaction_id"
     t.integer  "account_id"
     t.decimal  "debit_amount",    precision: 10, scale: 2
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.decimal  "account_balance", precision: 10, scale: 2
   end
 
   create_table "tranxactions", force: :cascade do |t|
     t.date     "transaction_date"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "description"
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "login",                           null: false
     t.string   "email",                           null: false
     t.string   "crypted_password",                null: false
