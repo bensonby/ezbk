@@ -1,6 +1,7 @@
 require 'net/http'
 require 'nokogiri'
 require 'open-uri'
+require 'iconv'
 
 class TranxactionsController < ApplicationController
   before_filter :require_user
@@ -12,20 +13,18 @@ class TranxactionsController < ApplicationController
 
   def preview_fare_kmb
     kmb_route_no = params[:kmb_route_no]
-    url = 'http://m.kmb.hk/en/result.html?busno=' + kmb_route_no
+    url = "http://www.i-busnet.com/busroute/kmb/kmbr#{kmb_route_no.downcase}.php"
     ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
-    kmb_doc = Nokogiri::HTML(open(url))
-    unwanted_nodes = [
-      'head',
-      '.detailContainer td:first-child',
-      '.detailContainer th:first-child',
-    ]
-    kmb_doc.search(unwanted_nodes.join(", ")).each do |src|
-      src.remove
-    end
+
+    ic = Iconv.new('utf-8', 'big5')
+    kmb_doc = Nokogiri::HTML(open(url), nil, 'big5')
     kmb_doc.xpath('//@src').remove  # remove dead img src
-    kmb_doc.css('.navTable, .resultContainer h4, .detailContainer').each do |el|
-      ret = ret + el.to_s
+    selectors = [
+      'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(3) > td:first-child',
+      'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
+    ]
+    kmb_doc.css(selectors.join(", ")).each do |el|
+      ret = ret + '<table class="detailTable"><tr>' + ic.iconv(el.to_s) + '</tr></table>'
     end
     render html: ret.html_safe
   end

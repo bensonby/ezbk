@@ -54,3 +54,4 @@ gem 'jquery-ui-rails'
 gem 'jquery-validation-rails'
 gem 'rails_12factor', group: :production
 gem 'nokogiri'
+gem 'iconv'

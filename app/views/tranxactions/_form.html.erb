@@ -108,7 +108,7 @@ function setRemainingAmount(){
     }
   });
 
-$(document).on('keyup', '#tranxaction_description', function(event) {
+$(document).on('keyup', '#tranxaction_description', function kmb(event) {
   var text = $(this).val();
   if (text.substr(0, 4) === "KMB ") {
     var next_space_pos = text.indexOf(" ", 4);
@@ -127,7 +127,7 @@ $(document).on('keyup', '#tranxaction_description', function(event) {
   hideHintPanel();
   hideHintDetailsPanel();
 });
-$(document).on('change', '#tranxaction_description', function(event) {
+$(document).on('change', '#tranxaction_description', function mtr(event) {
   var text = $(this).val();
   if (text.substr(0, 4) !== "MTR ") return;
   var next_hyphen_pos = text.indexOf("-");
@@ -231,8 +231,8 @@ function previewFareKmb(text) {
   $('.detailTable').find('td').css('background-color', 'transparent');
 
   $('.detailTable').each(function(index) {
-    var fromResult = from ? $(this).find('td:contains("' + from.toUpperCase() + '")') : [];
-    var toResult = to ? $(this).find('td:contains("' + to.toUpperCase() + '")') : [];
+    var fromResult = from ? $(this).find('td:nth-child(3):contains("' + from.toUpperCase() + '")') : [];
+    var toResult = to ? $(this).find('td:nth-child(3):contains("' + to.toUpperCase() + '")') : [];
 
     if (fromResult.length > 0) {
       setFrom($(fromResult[0]).text());
@@ -248,7 +248,7 @@ function previewFareKmb(text) {
       var fromNode = $(fromResult[0]).closest('tr');
       var toNode = $(toResult[toResult.length-1]).closest('tr');
       if (fromNode.nextAll().filter(toNode).length !== 0) {
-        var fare = fromNode.find('td:nth-child(2)').text();
+        var fare = fromNode.find('td:nth-child(4)').text();
         setFare(fare);
         setFrom($(fromResult[0]).text());
         setTo($(toResult[toResult.length - 1]).text());
