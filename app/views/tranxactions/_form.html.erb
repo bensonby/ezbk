@@ -108,24 +108,56 @@ function setRemainingAmount(){
     }
   });
 
-$(document).on('keyup', '#tranxaction_description', function kmb(event) {
-  var text = $(this).val();
-  if (text.substr(0, 4) === "KMB ") {
-    var next_space_pos = text.indexOf(" ", 4);
-    if (next_space_pos === -1) return;
-    route_no = text.substr(4, next_space_pos-4);
-    loading_route = $('#loading-route').text();
-    if (route_no != loading_route) {
-      loadKmbRouteDetails(route_no);
-    }
-    previewFareKmb($(this).val());
+var autoCompleteTypes = ['KMB', 'LWB', 'CTB', 'NWFB', 'HBB', 'MTR'];
+function parseBusDescription(text) {
+  var result = {
+    'type': null,
+    'routeNo': null,
+    'from': null,
+    'to': null,
+  };
+  var busTypes = ['KMB', 'LWB', 'CTB', 'NWFB', 'HBB'];
+  var spacePos = text.indexOf(' ');
+  if (spacePos === -1) {
+    return result;
+  }
+  var type = text.substr(0, spacePos);
+  if (busTypes.indexOf(type) === -1) {
+    return result;
+  }
+  result.type = type;
+
+  var next_space_pos = text.indexOf(' ', spacePos + 1);
+  if (next_space_pos === -1) {
+    return result;
+  }
+  result.routeNo = text.substr(spacePos + 1, next_space_pos - spacePos - 1);
+
+  var next_hyphen_pos = text.indexOf('-', next_space_pos);
+  if (next_hyphen_pos !== -1) {
+    result.from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1).trim();
+    result.to = text.substr(next_hyphen_pos + 1).trim();
+  } else {
+    result.from = text.substr(next_space_pos + 1).trim();
+  }
+
+  return result;
+}
+
+$(document).on('keyup', '#tranxaction_description', function bus(event) {
+  var result = parseBusDescription($(this).val());
+  if (!result.type || !result.routeNo) {
     return;
   }
-  if (text.substr(0, 4) === "MTR ") {
-    return;
+  loading_route = $('#loading-route').text();
+  if (result.routeNo != loading_route) {
+    loadBusRouteDetails(result.type, result.routeNo);
   }
-  hideHintPanel();
-  hideHintDetailsPanel();
+  previewFareBus($(this).val());
+  if (autoCompleteTypes.indexOf(result.type) === -1) {
+    hideHintPanel();
+    hideHintDetailsPanel();
+  }
 });
 $(document).on('change', '#tranxaction_description', function mtr(event) {
   var text = $(this).val();
@@ -180,11 +212,12 @@ function previewFareMtr(from, to) {
   });
 }
 
-function loadKmbRouteDetails(route_no) {
+function loadBusRouteDetails(type, route_no) {
   $('#loading-route').text(route_no);
   $('#hint-details').text('');
-  $('#hint-details').load('/tranxactions/preview_fare_kmb', {
-    'kmb_route_no': route_no
+  $('#hint-details').load('/tranxactions/preview_fare_bus', {
+    'type': type,
+    'route_no': route_no
   }, function(responseText) {
     if (responseText.trim() == '') {
       hideHintPanel();
@@ -192,7 +225,7 @@ function loadKmbRouteDetails(route_no) {
       return;
     }
     showHintDetailsPanel();
-    previewFareKmb($('#tranxaction_description').val());
+    previewFareBus($('#tranxaction_description').val());
   });
 }
 
@@ -212,27 +245,25 @@ function showEmptyHint() {
   setTo('N/A');
 }
 
-function previewFareKmb(text) {
+function previewFareBus(text) {
   showHintPanel();
   showEmptyHint();
-  if (text.substr(0, 4) != 'KMB ') return;
-  var next_space_pos = text.indexOf(" ", 4);
-  if (next_space_pos === -1) return;
-  route_no = text.substr(4, next_space_pos-4);
-  var next_hyphen_pos = text.indexOf("-", next_space_pos);
-  if (next_hyphen_pos !== -1) {
-    from = text.substr(next_space_pos + 1, next_hyphen_pos - next_space_pos - 1).trim();
-    to = text.substr(next_hyphen_pos + 1).trim();
-  } else {
-    from = text.substr(next_space_pos + 1).trim();
-    to = '';
+  var result = parseBusDescription(text);
+  if (!result.from && !result.to) {
+    return;
   }
 
   $('.detailTable').find('td').css('background-color', 'transparent');
 
   $('.detailTable').each(function(index) {
-    var fromResult = from ? $(this).find('td:nth-child(3):contains("' + from.toUpperCase() + '")') : [];
-    var toResult = to ? $(this).find('td:nth-child(3):contains("' + to.toUpperCase() + '")') : [];
+    var fromResult = [];
+    if (result.from) {
+      fromResult = $(this).find('td:nth-child(3):contains("' + result.from + '")');
+    }
+    var toResult = [];
+    if (result.to) {
+      toResult = $(this).find('td:nth-child(3):contains("' + result.to + '")');
+    }
 
     if (fromResult.length > 0) {
       setFrom($(fromResult[0]).text());

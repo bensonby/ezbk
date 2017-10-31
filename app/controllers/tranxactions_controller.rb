@@ -11,19 +11,33 @@ class TranxactionsController < ApplicationController
     @page_name = "transactions"
   end
 
-  def preview_fare_kmb
-    kmb_route_no = params[:kmb_route_no]
-    url = "http://www.i-busnet.com/busroute/kmb/kmbr#{kmb_route_no.downcase}.php"
+  def preview_fare_bus
+    type = params[:type]
+    route_no = params[:route_no]
+    case type
+    when "KMB"
+      url = "http://www.i-busnet.com/busroute/kmb/kmbr#{route_no.downcase}.php"
+    when "LWB"
+      url = "http://www.i-busnet.com/busroute/lwb/lwbr#{route_no.downcase}.php"
+    when "CTB"
+      url = "http://www.i-busnet.com/busroute/ctb/ctbr#{route_no.downcase}.php"
+    when "NWFB"
+      url = "http://www.i-busnet.com/busroute/nwfb/nwfbr#{route_no.downcase}.php"
+    when "HBB"
+      url = "http://www.i-busnet.com/busroute/harbour/harbourr#{route_no.downcase}.php"
+    else
+      render html: "Invalid bus type!"
+    end
     ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
 
     ic = Iconv.new('utf-8', 'big5')
-    kmb_doc = Nokogiri::HTML(open(url), nil, 'big5')
-    kmb_doc.xpath('//@src').remove  # remove dead img src
+    doc = Nokogiri::HTML(open(url), nil, 'big5')
+    doc.xpath('//@src').remove  # remove dead img src
     selectors = [
       'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(3) > td:first-child',
       'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
     ]
-    kmb_doc.css(selectors.join(", ")).each do |el|
+    doc.css(selectors.join(", ")).each do |el|
       ret = ret + '<table class="detailTable"><tr>' + ic.iconv(el.to_s) + '</tr></table>'
     end
     render html: ret.html_safe
