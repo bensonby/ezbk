@@ -11,6 +11,11 @@ class TranxactionsController < ApplicationController
     @page_name = "transactions"
   end
 
+  def remove_width_styles(html)
+    tmp = html.gsub(/style="(.*?)"/, "")
+    return tmp.gsub(/width="(.*?)"/, "")
+  end
+
   def preview_fare_bus
     type = params[:type]
     route_no = params[:route_no]
@@ -39,7 +44,7 @@ class TranxactionsController < ApplicationController
         'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
       ]
       doc.css(selectors.join(", ")).each do |el|
-        ret = ret + '<table class="detailTable"><tr>' + ic.iconv(el.to_s) + '</tr></table>'
+        ret = ret + '<table class="detailTable"><tr>' + ic.iconv(remove_width_styles(el.to_s)) + '</tr></table>'
       end
     rescue => e
       ret = ret + e.message
