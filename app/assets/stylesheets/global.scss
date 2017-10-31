@@ -23,6 +23,13 @@ table.center td {
 input.date {
   width: 90px;
 }
+
+#transaction-entries-input {
+  input#account_id {
+    width: 120px;
+  }
+}
+
 input.input-debit-amount {
   width: 100px;
 }
@@ -207,6 +214,11 @@ div#close_help_button {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   background-image: none;
+}
+
+/* auto complete fare */
+table.detailTable td {
+  word-break: break-all;
 }
 
 #hint-details {

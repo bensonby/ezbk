@@ -35,7 +35,7 @@
       <tr>
           <th>Account</th>
           <th>Debit Amount</th>
-          <th>Remove this row</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="transaction-entries-input">
@@ -44,7 +44,7 @@
         <% end %>
         <tr>
           <td>
-            <%= link_to_add_fields "Add Transaction Entry", f, :transaction_entries, {:tabindex => 9999, :id => "add-transaction-entry", :"container-tag" => "tr" } %>
+            <%= link_to_add_fields "Add Entry", f, :transaction_entries, {:tabindex => 9999, :id => "add-transaction-entry", :"container-tag" => "tr" } %>
           </td>
         </tr>
       </tbody>
