@@ -9,6 +9,8 @@ services:
     links:
       - postgres
     command: bundle exec thin -p 3000 start
+    volumes:
+      - .:/usr/src/app
     ports:
       - "3000:3000"
     expose:
