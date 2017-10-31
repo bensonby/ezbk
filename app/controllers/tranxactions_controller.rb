@@ -31,14 +31,18 @@ class TranxactionsController < ApplicationController
     ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
 
     ic = Iconv.new('utf-8', 'big5')
-    doc = Nokogiri::HTML(open(url), nil, 'big5')
-    doc.xpath('//@src').remove  # remove dead img src
-    selectors = [
-      'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(3) > td:first-child',
-      'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
-    ]
-    doc.css(selectors.join(", ")).each do |el|
-      ret = ret + '<table class="detailTable"><tr>' + ic.iconv(el.to_s) + '</tr></table>'
+    begin
+      doc = Nokogiri::HTML(open(url), nil, 'big5')
+      doc.xpath('//@src').remove  # remove dead img src
+      selectors = [
+        'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(3) > td:first-child',
+        'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
+      ]
+      doc.css(selectors.join(", ")).each do |el|
+        ret = ret + '<table class="detailTable"><tr>' + ic.iconv(el.to_s) + '</tr></table>'
+      end
+    rescue => e
+      ret = ret + e.message
     end
     render html: ret.html_safe
   end
