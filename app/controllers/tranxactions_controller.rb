@@ -61,28 +61,12 @@ class TranxactionsController < ApplicationController
       render html: ''
       return
     end
-    url = 'http://www.mtr.com.hk/en/customer/jp/index.php?sid=' + from_id.to_s + '&eid=' + to_id.to_s
-
-    # first request gets 302, need to set cookie and re-request
-    uri = URI(url)
-    res = Net::HTTP.get_response(uri)
-    req = Net::HTTP::Get.new(uri)
-    req['Cookie'] = res['Set-Cookie']
-    res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
-
-    mtr_doc = Nokogiri::HTML(res.body)
-    unwanted_nodes = [
-      'head',
-      'script',
-      'img'
-    ]
-    mtr_doc.search(unwanted_nodes.join(", ")).each do |src|
-      src.remove
-    end
+    url = "https://checkfare.swiftzer.net/checkfare14.php/zh/#{from_id},#{to_id}/0/0/x/0"
+    mtr_doc = Nokogiri::HTML(open(url))
 
     ret = '<p><a target="_blank" href="' + url + '">' + url + '</a></p>'
     ret = ret + '<h3>' + from.strip + ' - ' + to.strip + '</h3>'
-    mtr_doc.css('div.mtrInfoBox').each do |el|
+    mtr_doc.css('main div.rge_table table').each do |el|
       ret = ret + el.to_s
     end
     render html: ret.html_safe
