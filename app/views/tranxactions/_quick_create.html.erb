@@ -4,7 +4,7 @@
   <%= form_tag tranxactions_quick_create_path, :id => 'quick-create-form' do %>
     <span class="field">
       <%= label_tag 'transaction_date', 'Date:' %>
-      <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).to_date.to_s, :tabindex => autotab, :class => 'date required' %>
+      <%= text_field_tag 'transaction_date', (DateTime.now - 7.hours).in_time_zone.to_date.to_s, :tabindex => autotab, :class => 'date required' %>
     </span>
     <span class="field">
       <%= label_tag 'tranxaction_id', 'Transaction:' %>
