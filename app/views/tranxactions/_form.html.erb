@@ -204,8 +204,8 @@ function previewFareMtr(from, to) {
       hideHintDetailsPanel();
       return;
     }
-    var octopus_fare = $('td:contains("Adult")').next().text();
-    setFare("$" + octopus_fare);
+    var octopusFare = $('#hint-details tr:last-child td:last-child').text();
+    setFare(octopusFare);
     setFrom(from);
     setTo(to);
     showHintDetailsPanel();
