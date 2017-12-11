@@ -39,9 +39,19 @@ class TranxactionsController < ApplicationController
     begin
       doc = Nokogiri::HTML(open(url), nil, 'big5')
       doc.xpath('//@src').remove  # remove dead img src
+      unwanted_nodes = [
+        'script',
+        'img'
+      ]
+      doc.search(unwanted_nodes.join(", ")).each do |src|
+        src.remove
+      end
+
+      # for normal routes, there are 5 <tr> nodes, 3rd and 4th are the two directions
+      # for circular routes, there are 4 <tr> nodes, the 3rd is the one we need
       selectors = [
         'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(3) > td:first-child',
-        'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child',
+        'div#ypaAdWrapper-List4 ~ table > tr > td > table > tr:nth-child(4) > td:first-child:not(:last-child)',
       ]
       doc.css(selectors.join(", ")).each do |el|
         ret = ret + '<table class="detailTable"><tr>' + ic.iconv(remove_width_styles(el.to_s)) + '</tr></table>'
