@@ -18,13 +18,10 @@ Easy Bookkeeping with accounting principles
 
 IMPORTANT: For development mode, make sure to comment out commands in `Dockerfile` accordingly before building docker image.
 
-Requires:
-
-- Ruby 2.2.8
-
 ```bash
-rake db:create
-rake db:migrate
+docker-compose exec ezbk rake db:create
+docker-compose exec ezbk rake db:migrate
+docker-compose up
 ```
 
 ## Deployment through docker
