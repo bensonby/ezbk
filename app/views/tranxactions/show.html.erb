@@ -1,3 +1,7 @@
+<h3><div class="link-button"><%= link_to 'Create Account', new_account_path, :tabindex => autotab %></div>
+    <div class="link-button"><%= link_to 'Create Transaction', new_tranxaction_path, :tabindex => autotab %></div>
+    <div class="clear"></div>
+</h3>
 <%= render "tranxactions/transaction_entries", :tranxactions => [@transaction] %>
 <div>
 <%= link_to 'Edit', edit_tranxaction_path(@transaction) %> |
