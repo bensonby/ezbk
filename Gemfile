@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.2.8'
+ruby '2.7.6'
 
-gem 'rails', '4.2.1'
+gem 'rails', '5.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -26,7 +26,7 @@ end
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '>= 3.1.5'
 
 group :production do
     gem 'thin'
@@ -47,11 +47,10 @@ end
 gem 'rails-jquery-autocomplete'
 gem 'nifty-generators'
 gem 'authlogic', '~> 3.4'
-gem 'pg', '~> 0.18'
+gem 'pg', '>= 1.4.3'
 gem 'will_paginate', '~> 3.0.0'
 gem 'jquery-hotkeys-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-validation-rails'
 gem 'rails_12factor', group: :production
-gem 'nokogiri'
 gem 'iconv'

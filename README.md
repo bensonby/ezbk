@@ -14,11 +14,17 @@ Easy Bookkeeping with accounting principles
 
 [On Heroku](http://ezbk.herokuapp.com)
 
+## System requirements
+
+- Ruby 2.7.6
+- Postgres (`brew install libpq` for Mac)
+
 ## Setup
 
 IMPORTANT: For development mode, make sure to comment out commands in `Dockerfile` accordingly before building docker image.
 
 ```bash
+docker build . # add --platform linux/amd64 in M1, add --pull and --no-cache if necessary
 docker-compose exec ezbk rake db:create
 docker-compose exec ezbk rake db:migrate
 docker-compose up
