@@ -4,8 +4,8 @@ require 'open-uri'
 require 'iconv'
 
 class TranxactionsController < ApplicationController
-  before_filter :require_user
-  before_filter :set_page_name
+  before_action :require_user
+  before_action :set_page_name
 
   def set_page_name
     @page_name = "transactions"
@@ -106,7 +106,7 @@ class TranxactionsController < ApplicationController
     @transactions = Tranxaction.of_user(current_user).
                     where("transaction_date" => (start_date)..(end_date)).
                     paginate(:page => params[:page]).
-                    order("transaction_date DESC, id DESC").uniq!
+                    order("transaction_date DESC, id DESC").distinct
 
     respond_to do |format|
       format.html # index.html.erb

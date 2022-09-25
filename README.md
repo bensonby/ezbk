@@ -21,6 +21,16 @@ Easy Bookkeeping with accounting principles
 
 ## Setup
 
+### locally without Docker
+
+```bash
+bundle install
+chmod u+x bin/rails
+bin/rails server
+createdb ezbk_development
+bin/rails db:migrate
+```
+
 IMPORTANT: For development mode, make sure to comment out commands in `Dockerfile` accordingly before building docker image.
 
 ```bash

@@ -1,4 +1,4 @@
-class CreateTransactionEntries < ActiveRecord::Migration
+class CreateTransactionEntries < ActiveRecord::Migration[5.0]
   def change
     create_table :transaction_entries do |t|
       t.integer :transaction_id

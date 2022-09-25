@@ -1,4 +1,4 @@
-class RenameTransactionsToTranxactions < ActiveRecord::Migration
+class RenameTransactionsToTranxactions < ActiveRecord::Migration[5.0]
   def self.up
     rename_table :transactions, :tranxactions
   end

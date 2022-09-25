@@ -4,7 +4,7 @@
 <%= form_for @user_session, :url => {:action => "create"} do |f| %>
   <%= f.error_messages %>
   <%= f.label :login %><br />
-  <%= f.text_field :login, :tabindex => autotab %><br />
+  <%= text_field_tag :login, nil, :tabindex => autotab %><br />
   <br />
   <%= f.label :password %><br />
   <%= f.password_field :password, :tabindex => autotab %><br />

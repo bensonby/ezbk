@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
-  before_filter :require_user
-  before_filter :require_accounts
-  before_filter :set_page_name
+  before_action :require_user
+  before_action :require_accounts
+  before_action :set_page_name
 
   def set_page_name
     @page_name = "accounts-" + (params[:stmt_type] == 'bs' ? 'bs' : 'is')
