@@ -1,6 +1,6 @@
 # This file is supposed to be readily used for production
 # Please make the changes accordingly if for development
-FROM ruby:2.2.8
+FROM ruby:2.7.6
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
